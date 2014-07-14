@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+"http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd" 
+[ 
+<!ENTITY % MATHML.prefixed "INCLUDE"> 
+<!ENTITY % MATHML.prefix "m"> 
+] 
+> 
+<?xml-stylesheet type="text/css" href="post.effect.css"?> 
+<html xmlns:m="http://www.w3.org/1998/Math/MathML" 
+ 
+xmlns="http://www.w3.org/1999/xhtml"  
+><head><title></title> 
+<!-- 
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=iso-8859-1" /> 
+see http://lists.w3.org/Archives/Public/www-math/2007May/0056.html  
+--> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<!-- html,mathplayer,xhtml,mozilla,xht --> 
+<meta name="src" content="post.effect.tex" /> 
+<meta name="date" content="2014-07-07 10:39:00" /> 
+<link rel="stylesheet" type="text/css" href="post.effect.css" /> 
+</head><body 
+>
+   <script type="text/javascript"> 
+<!-- 
+if( navigator.appName=="Microsoft Internet Explorer"  
+&& navigator.platform=="Win32"  
+){  
+if( parseFloat(navigator.appVersion.substr(  
+navigator.appVersion.indexOf("MSIE ")+5))>="5.5"  
+){ try {  
+var oMP = new ActiveXObject("MathPlayer.Factory.1");  
+}  
+catch(e) { alert("Can't find Design Science's MathPalyer" +  
+"(http://www.dessci.com/webmath/mathplayer)");}  
+} else {  
+alert("Requires MSIE version 5.5 or later");  
+} }  
+ 
+--> 
+</script> 
+
+   <h3 class="sectionHead"><span class="titlemark">1   </span> <a 
+ id="x1-10001"></a>Solving for the Posterior Distribution on
+<!--l. 74--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03B2;</mi></math>:
+Motivating the problem</h3>
+   <table class="equation"><tr><td> <a 
+ id="x1-1001r1"></a>
+<!--l. 77--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" class="equation">
+             <mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo><munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>m</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>M</mi></mrow></munderover 
+><mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi><mo 
+class="MathClass-rel">|</mo><mi 
+>D</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow>
+</math></td><td class="eq-no">(1)</td></tr></table>
+<!--l. 81--><p class="noindent" >If <!--l. 81--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03B2;</mi></math> results
+from a mixture of multivariate normals across many different prior covariance matrices
+<!--l. 81--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><mi 
+>m</mi></math>
+and clusters of &#x2019;types&#x2019;, we need to compute the posterior on
+<!--l. 81--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03B2;</mi></math>.
+We might also assume that the observed variance in effect sizes,
+<!--l. 81--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mstyle></math>, is a
+diagonal matrix.
+</p><!--l. 84--><p class="noindent" >
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">1.1   </span> <a 
+ id="x1-20001.1"></a>Prior specification</h4>
+<!--l. 86--><p class="noindent" >Taking a Bayesian approach to inference, we place the following priors (a mixture of normal
+distributions) on <!--l. 86--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03B2;</mi></math>
+</p>
+                                                                            
+
+                                                                            
+<!--tex4ht:inline--><!--l. 87--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+<mtable 
+class="eqnarray" columnalign="right center left" >
+<mtr><mtd 
+class="eqnarray-1"> <mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>&#x03C0;</mi></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">&#x223C;</mo></mtd><mtd 
+class="eqnarray-3">   <munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+>&#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>m</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>M</mi></mrow></munderover 
+><msubsup><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+>
+<mi 
+>m</mi></mrow><mrow 
+><mi 
+>&#x03B2;</mi></mrow></msubsup 
+><mi 
+mathvariant="bold-script">N</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mstyle mathvariant="bold"><mn>0</mn></mstyle><mo 
+class="MathClass-punc">,</mo><mstyle mathvariant="bold"><msub><mrow 
+><mi 
+>W</mi></mrow><mrow 
+>
+<mi 
+>m</mi></mrow></msub 
+></mstyle></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(2)</mtext><mtext 
+   id="x1-2001r2"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>                                       </mtr></mtable>
+</math>
+<!--l. 89--><p class="nopar" >
+</p>
+<!--l. 90--><p class="indent" >   where <!--l. 90--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03C0;</mi> <mo 
+class="MathClass-rel">=</mo> <mrow ><mo 
+class="MathClass-open">(</mo><mrow><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><mo 
+class="MathClass-op">&#x2026;</mo><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>M</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow></math> are the
+mixture proportions which are constrained to be non-negative and sum to one, <span 
+class="cmbx-12">W </span>= (W&#x02D9;1, &#x2026;,
+W&#x02D9;M)<!--l. 90--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>a</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>t</mi><mi 
+>h</mi><mi 
+>e</mi></math>S<!--l. 90--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>b</mi><mi 
+>y</mi></math>S<!--l. 90--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>g</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>d</mi><mi 
+>o</mi><mi 
+>f</mi><mi 
+>e</mi><mi 
+>f</mi><mi 
+>f</mi><mi 
+>e</mi><mi 
+>c</mi><mi 
+>t</mi><mo 
+class="MathClass-bin">&#x2212;</mo><mi 
+>s</mi><mi 
+>i</mi><mi 
+>z</mi><mi 
+>e</mi><mi 
+>p</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>o</mi><mi 
+>r</mi><mi 
+>v</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>a</mi><mi 
+>n</mi><mi 
+>c</mi><mi 
+>e</mi><mi 
+>m</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>c</mi><mi 
+>e</mi><mi 
+>s</mi><mi 
+>f</mi><mi 
+>o</mi><mi 
+>r</mi><mi 
+>e</mi><mi 
+>a</mi><mi 
+>c</mi><mi 
+>h</mi><mi 
+>n</mi><mi 
+>o</mi><mi 
+>r</mi><mi 
+>m</mi><mi 
+>a</mi><mi 
+>l</mi><mi 
+>d</mi><mi 
+>i</mi><mi 
+>s</mi><mi 
+>t</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>b</mi><mi 
+>u</mi><mi 
+>t</mi><mi 
+>i</mi><mi 
+>o</mi><mi 
+>n</mi><mo 
+class="MathClass-punc">.</mo><mi 
+>F</mi><mi 
+>o</mi><mi 
+>r</mi><mi 
+>n</mi><mi 
+>o</mi><mi 
+>w</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>w</mi><mi 
+>e</mi><mi 
+>a</mi><mi 
+>s</mi><mi 
+>s</mi><mi 
+>u</mi><mi 
+>m</mi><mi 
+>e</mi><mi 
+>t</mi><mi 
+>h</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>t</mi><mi 
+>h</mi><mi 
+>e</mi><mi 
+>v</mi><mi 
+>a</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>a</mi><mi 
+>n</mi><mi 
+>c</mi><mi 
+>e</mi><mi 
+>m</mi><mi 
+>a</mi><mi 
+>t</mi><mi 
+>r</mi><mi 
+>i</mi><mi 
+>c</mi><mi 
+>e</mi><mi 
+>s</mi></math><mstyle mathvariant="bold">W</mstyle><!--l. 90--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>m</mi> </math>
+are known and estimates <!--l. 90--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03C0;</mi></math>
+by using an empirical Bayes procedure - that is we find the maximum-likelihood
+estimator.
+</p><!--l. 92--><p class="noindent" >
+</p>
+   <h4 class="subsectionHead"><span class="titlemark">1.2   </span> <a 
+ id="x1-30001.2"></a>BF and posterior prob approximation</h4>
+<!--l. 94--><p class="noindent" >MLE for <!--l. 94--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03C0;</mi></math>, the
+prior weight on <!--l. 94--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><msub><mrow 
+><mi 
+>z</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+can be computed as described using the EM algorithm.
+</p><!--l. 96--><p class="indent" >   Let <!--l. 96--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mstyle mathvariant="bold"></mstyle> <mo 
+class="MathClass-rel">=</mo> <mi 
+>V</mi> <mi 
+>a</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mo 
+class="MathClass-close">)</mo></mrow></math>
+and <!--l. 96--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><mi 
+>m</mi> <mo 
+class="MathClass-rel">=</mo> <mstyle mathvariant="bold"><msub><mrow 
+><mi 
+>W</mi></mrow><mrow 
+><mi 
+>m</mi></mrow></msub 
+></mstyle></math>,
+the group-specific variance. We exploit the fact that
+</p>
+                                                                            
+
+                                                                            
+<!--tex4ht:inline--><!--l. 98--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+<mtable 
+class="eqnarray" columnalign="right center left" >
+<mtr><mtd 
+class="eqnarray-1">   <mi 
+>E</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <mi 
+>E</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>E</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-rel">|</mo><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo> <mi 
+>E</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-rel">=</mo> <mn>0</mn>        </mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(3)</mtext><mtext 
+   id="x1-3001r3"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>
+</mtr><mtr><mtd 
+class="eqnarray-1"> <mi 
+>V</mi> <mi 
+>a</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <mi 
+>V</mi> <mi 
+>a</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>E</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-rel">|</mo><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow> <mo 
+class="MathClass-bin">+</mo> <mi 
+>E</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>V</mi> <mi 
+>a</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-rel">|</mo><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(4)</mtext><mtext 
+   id="x1-3001r4"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>
+</mtr><mtr><mtd 
+class="eqnarray-1">          </mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><mi 
+>m</mi> <mo 
+class="MathClass-bin">+</mo> <mstyle mathvariant="bold"><mi 
+>V</mi></mstyle>                      </mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(5)</mtext><mtext 
+   id="x1-3001r5"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>                           </mtr></mtable>
+</math>
+<!--l. 102--><p class="nopar" >
+</p>
+<!--l. 104--><p class="indent" >   Recognizing that we can use <!--l. 104--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ></math>
+as a sufficient statistic to summarize our data:
+</p>
+<!--tex4ht:inline--><!--l. 106--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+<mtable 
+class="eqnarray" columnalign="right center left" >
+<mtr><mtd 
+class="eqnarray-1">  <mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>D</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow>                                    </mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(6)</mtext><mtext 
+   id="x1-3002r6"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>
+</mtr><mtr><mtd 
+class="eqnarray-1">    <mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">&#x223C;</mo></mtd><mtd 
+class="eqnarray-3">   <mi 
+mathvariant="bold-script">N</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">,</mo><mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><mi 
+>m</mi> <mo 
+class="MathClass-bin">+</mo> <mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mstyle></mrow><mo 
+class="MathClass-close">)</mo></mrow>                                  </mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(7)</mtext><mtext 
+   id="x1-3002r7"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>
+</mtr><mtr><mtd 
+class="eqnarray-1"> <mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <msup><mrow 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mn>2</mn><mi 
+>&#x03C0;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mi 
+>k</mi><mo 
+class="MathClass-bin">&#x2215;</mo><mn>2</mn></mrow></msup 
+><mo 
+class="MathClass-rel">|</mo><mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mstyle> <mo 
+class="MathClass-bin">+</mo> <mstyle mathvariant="bold"><mi 
+>W</mi></mstyle>
+<mi 
+>m</mi><msup><mrow 
+><mo 
+class="MathClass-rel">|</mo></mrow><mrow 
+><mfrac><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow>
+ <mrow 
+><mn>2</mn></mrow></mfrac>  </mrow></msup 
+><mo class="qopname"> exp</mo><!--nolimits--> <mrow ><mo 
+class="MathClass-open">[</mo><mrow><mo 
+class="MathClass-bin">&#x2212;</mo><mfrac><mrow 
+><msup><mrow 
+><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo class="qopname">&#x0302;</mo></mover></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+><msup><mrow 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mstyle mathvariant="bold"><mi 
+>W</mi></mstyle>
+<mi 
+>m</mi> <mo 
+class="MathClass-bin">+</mo> <mstyle mathvariant="bold"><mi 
+>V</mi></mstyle></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo class="qopname">&#x0302;</mo></mover></mrow>
+           <mrow 
+><mn>2</mn></mrow></mfrac>             </mrow><mo 
+class="MathClass-close">]</mo></mrow><mo 
+class="MathClass-punc">.</mo></mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(8)</mtext><mtext 
+   id="x1-3002r8"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>  </mtr></mtable>
+</math>
+<!--l. 111--><p class="nopar" >
+</p>
+                                                                            
+
+                                                                            
+<!--l. 113--><p class="indent" >   And a posterior on <!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03B2;</mi></math>
+is </p>
+<!--tex4ht:inline--><!--l. 114--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+<mtable 
+class="eqnarray" columnalign="right center left" >
+<mtr><mtd 
+class="eqnarray-1"> <mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">&#x221D;</mo></mtd><mtd 
+class="eqnarray-3">   <mi 
+mathvariant="bold-script">&#x2112;</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mstyle mathvariant="sans-serif"><mi 
+>P</mi></mstyle><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow>                               </mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(9)</mtext><mtext 
+   id="x1-3003r9"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>
+</mtr><mtr><mtd 
+class="eqnarray-1">                </mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">&#x221D;</mo></mtd><mtd 
+class="eqnarray-3">   <mo class="qopname">exp</mo><!--nolimits--> <mrow ><mo 
+class="MathClass-open">[</mo><mrow><mo 
+class="MathClass-bin">&#x2212;</mo><mfrac><mrow 
+><msup><mrow 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi> <mo 
+class="MathClass-bin">&#x2212;</mo><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo class="qopname">&#x0302;</mo></mover></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+><msup><mrow 
+><mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo class="qopname">&#x0302;</mo></mover></mstyle></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi> <mo 
+class="MathClass-bin">&#x2212;</mo><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo class="qopname">&#x0302;</mo></mover></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow>
+                <mrow 
+><mn>2</mn></mrow></mfrac>                </mrow><mo 
+class="MathClass-close">]</mo></mrow><mo class="qopname"> exp</mo><!--nolimits--> <mrow ><mo 
+class="MathClass-open">[</mo><mrow><mo 
+class="MathClass-bin">&#x2212;</mo><mfrac><mrow 
+><msup><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+><mstyle mathvariant="bold"><mi 
+>W</mi></mstyle>
+<mi 
+>m</mi><mi 
+>&#x03B2;</mi></mrow>
+   <mrow 
+><mn>2</mn></mrow></mfrac>     </mrow><mo 
+class="MathClass-close">]</mo></mrow><mo 
+class="MathClass-punc">.</mo></mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(10)</mtext><mtext 
+   id="x1-3003r10"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>   </mtr></mtable>
+</math>
+<!--l. 117--><p class="nopar" >
+</p>
+<!--l. 118--><p class="indent" >   leading to </p>
+                                                                            
+
+                                                                            
+<!--tex4ht:inline--><!--l. 119--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+<mtable 
+class="eqnarray" columnalign="right center left" >
+<mtr><mtd 
+class="eqnarray-1"> <mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">&#x223C;</mo></mtd><mtd 
+class="eqnarray-3">   <mi 
+mathvariant="bold-script">N</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><msup><mrow 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><msup><mrow 
+><mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mstyle></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><msup><mrow 
+>
+<mi 
+>m</mi></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+><msup><mrow 
+><mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mstyle></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+><mover 
+accent="true"><mrow 
+><mi 
+>&#x03B2;</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover><mo 
+class="MathClass-punc">,</mo> <msup><mrow 
+><mrow ><mo 
+class="MathClass-open">(</mo><mrow><msup><mrow 
+><mstyle mathvariant="bold"><mover 
+accent="true"><mrow 
+><mi 
+>V</mi></mrow><mo 
+class="MathClass-op">&#x0302;</mo></mover></mstyle></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><msup><mrow 
+>
+<mi 
+>m</mi></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-punc">.</mo><mtd 
+class="eqnarray-3"> </mtd>
+<mtd 
+class="eqnarray-4"> <mtext class="eqnarray">&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;</mtext><mstyle 
+class="math"></mstyle><mtext  ></mtext></mtd><mtd 
+class="eqnarray-5">    </mtd><mtd 
+class="eqnarray-6">                                                       </mtd><mtd 
+class="eqnarray-7">
+<mtable 
+class="eqnarray" columnalign="right center left" ><!--l. 121--><p class="indent" >
+<mtr><mtd 
+class="eqnarray-1"> <!--mstyle 
+class="maketag"--><mtext  >(12)</mtext><!--/mstyle--><mstyle 
+   id="x1-3005r12"  class="label" ></mstyle><!--endlabel--></mtd>                                                                       </mtr></mtable></p>
+</math>
+<!--l. 121--><p class="nopar" >
+</p><!--l. 123--><p class="indent" >   So, we will sum over all possible posteriors
+<!--l. 123--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></math> and
+weights :
+</p>
+                                                                            
+
+                                                                            
+<!--tex4ht:inline--><!--l. 125--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="block" >
+<mtable 
+class="eqnarray" columnalign="right center left" >
+<mtr><mtd 
+class="eqnarray-1"> <mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+>&#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>m</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>M</mi></mrow></munderover 
+><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi><mo 
+class="MathClass-rel">|</mo><mi 
+>D</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow>       </mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(13)</mtext><mtext 
+   id="x1-3006r13"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>
+</mtr><mtr><mtd 
+class="eqnarray-1">          </mtd><mtd 
+class="eqnarray-2">   <mo 
+class="MathClass-rel">=</mo></mtd><mtd 
+class="eqnarray-3">   <munderover accentunder="false" accent="false"><mrow  
+><mo mathsize="big" 
+>&#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>m</mi><mo 
+class="MathClass-rel">=</mo><mn>1</mn></mrow><mrow 
+><mi 
+>M</mi></mrow></munderover 
+>   <mfrac><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>m</mi></mrow></msub 
+><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>D</mi><mo 
+class="MathClass-rel">|</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow>
+<mrow 
+><munder class="msub"><mrow 
+><mo mathsize="big" 
+> &#x2211;</mo>
+  </mrow><mrow 
+><mi 
+>n</mi></mrow></munder 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>n</mi></mrow></msub 
+><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>D</mi><mo 
+class="MathClass-rel">|</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>n</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow></mrow></mfrac><mi 
+>P</mi><mi 
+>r</mi><mrow ><mo 
+class="MathClass-open">(</mo><mrow><mi 
+>&#x03B2;</mi><mo 
+class="MathClass-rel">&#x2223;</mo><mi 
+>D</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>Z</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>m</mi></mrow><mo 
+class="MathClass-close">)</mo></mrow><mo 
+class="MathClass-punc">.</mo></mtd><mtd 
+class="eqnarray-4"> <mtext class="eqnarray">(14)</mtext><mtext 
+   id="x1-3006r14"  class="label" ></mtext><mtext 
+class="endlabel"></mtext></mtd>           </mtr></mtable>
+</math>
+<!--l. 128--><p class="nopar" >
+</p>
+<!--l. 130--><p class="indent" >   Where the posterior weights arise from (8) and the contributions
+of the posterior according to each combination of prior variances
+<!--l. 130--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML" display="inline" ><mstyle mathvariant="bold"><mi 
+>W</mi></mstyle><mi 
+>m</mi></math> arises
+from the individual multivariate normals specified in (12).
+</p>
+    
+</body> 
+</html> 
+
+                                                                            
+
+
