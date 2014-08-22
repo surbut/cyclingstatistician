@@ -208,12 +208,22 @@ When we integrate over $\bbar$, we could have just done the integral over $\bs$ 
 
 \begin{equation}
 \begin{aligned}
-p (\bs | \xs \tau) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \win \bs)]}\\
+p (\bs | \xs \M1) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \win \bs)]}\\
 \propto \exp (\frac{-1}{2}[(\bs^{t} (\vin+\win)\bs)] - (\bs^{t}(\vin \bhat) +(\bhat^{t} \vin) \bs))
 \end{equation}
 \end{aligned}
 
-Analogous to the previous situation, we have omitted an additional term contained in the likelihood of $\Pr (\bhat | \xs, \mathbf E)$ because it didn't contain $\bs$, $\bhat^{t}\vin \bhat$ and we have added an additional term:
+And under the Null Hypothesis,
+
+\begin{equation}
+\begin{aligned}
+p (\bs | \xs \M0) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \win \bs)]}\\
+p (\bs | \xs \M0) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \mathbf{0} \bs)]}\\
+\propto \exp (\frac{-1}{2}[(\bs^{t} (\vin)\bs)] - (\bs^{t}(\vin \bhat) +(\bhat^{t} \vin) \bs))
+\end{equation}
+\end{aligned}
+
+Analogous to the previous situation, we have omitted an additional term contained in the likelihood of $\Pr (\bhat | \xs, \mathbf E)$ because it didn't contain $\bs$, $\bhat^{t}\vin \bhat$ and we have added an additional term to only the alternative model:
 
 \begin{equation}
  \bs^{t}(\vin \bhat) (\vin+\win) (\bhat^{t} \vin) \bs
@@ -225,9 +235,11 @@ Analogous to the previous situation, we have omitted an additional term containe
  \end{equation}
  
  Only the added term is present in the numerator and not the denominator, and so we can see that the Bayes Factor will be proportional to:
+ \begin{equation}
   $\exp (\bs^{t}(\vin \bhat) (\vin+\win) (\bhat^{t} \vin) \bs)$
- 
- which, intuitively, augments the likelihood of the data by the prior covariance matrix of the effects, incorporating prior belief about shared effect and thus increasing our power to detect such homogeneity. 
+ \end{equation}
+ which, intuitively, augments the likelihood of the data by the prior covariance matrix of the effects, incorporating prior belief about shared effect and thus increasing our power to detect such homogeneity. This results from the fact that $\bs$, $\bhat^{t}\vin \bhat$ is present in both the alternative and null models, but   $\exp (\bs^{t}(\vin \bhat) (\vin+\win) (\bhat^{t} \vin) \bs)$ is added only in the alternative models, where there exists a distribution of non-zero values for $\bs$. Furthermore, if we imagine that the likelihood function will have most of its density at $\bs = \bhat$ and thus the the marginal probability  $\Pr (\bhat | \xs, \mathbf E, M1)}$ will really depend on the prior probability assigned to $\bs$ at $\bs = \bhat$, the use of a prior which assumes and thus upweights values of $\bs$ near a shared 'mean' effect size will be of benefit if such a shared effect size exists.
+
  
 
 \begin{itemize}
@@ -240,7 +252,13 @@ This is only because we integrate over $\bs$ first - if we had integrated over $
 Yes! 
 
 \item{ 3. I see that we are pooling the Bayes Factors by the product, which I guess increases our sample size (by sheer more terms in our product) but even if the residuals are independent, we miss the covariance in effects inherent in the data}
+
+False, this is is accounted for by the prior covariance in effects which is captured in the shared mean --- thus though the residuals are independent, the covariance in effects implies that the effects are not.
+
 \item{4. Perhaps the product refers to conditional on the mean $\bbar$, they are exchangeable (i.e., independent) but then we are replying only on the BF(fixed) to reinforce our covariance in effects.
+
+Yes -- this is true only in the met analysis case. The exchangeability allows us to factor the likelihood with $\bs$ conditional on $\bbar$ because each $\bs$ is i.i.d. conditional on $\bbar$ (see DeFinetti's theorem); however, when we return to integrate $\bbar$ out, the product no longer factorizes. In the met analysis case where the $\tau$s are independent, integrating out $\tau$ returns the factorization; however, if we make no assumption about the independence of residual variances, then we must consider the distribution of the Bayes Factor of a multivariate vectors (i.e., the product of $n$ 1 x S vectors rather than n x s vectors.
+
 \end{itemize}
 
 From William's paper:
@@ -256,7 +274,7 @@ Also: Kass LaPlace Approximation: I see that the majority of the Mass of the BF 
 
 \item{2. We can use a product because we assume the vectors of residual errors are independent across populations, but the effects are not (in any case by the max H case). So is the product because of the conditional exchangeability?}
 
-Yes! 
+Yes! See above explanations!
 
 
 

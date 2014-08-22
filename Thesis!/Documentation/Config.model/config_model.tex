@@ -575,7 +575,7 @@ Therefore,
   p(\bm{b}_{gp} | \hat{\bm{b}}_{gp}, \hat{V}_{gp}, \hat{\bm{\lambda}}, c_{gpj}=1)  &= \sum_{l=1}^L \tilde{\lambda}_l \frac{p_l(\bm{b}_{gp}) p(\hat{\bm{b}}_{gp} | \bm{b}_{gp})}{p_l(\hat{\bm{b}}_{gp})}\\
       &= \sum_{l=1}^L \hat{\lambda}_l \frac{p_l(\hat{\bm{b}}_{gp})}{p(\hat{\bm{b}}_{gp})} \frac{p_l(\bm{b}_{gp}) p(\hat{\bm{b}}_{gp} | \bm{b}_{gp})}{p_l(\hat{\bm{b}}_{gp})}\\
       &= \sum_{l=1}^L \hat{\lambda}_l \frac{p_l(\bm{b}_{gp}) p(\hat{\bm{b}}_{gp} | \bm{b}_{gp})}{{p(\hat{\bm{b}}_{gp})}} \\
-      &=  \sum_{l=1}^L \hat{\lambda}_l  \frac { \Norm_R(\bm{b}_{gp}|\bm{\mu}_{gp1jl}, U_{gp1jl})} {\sum_{l=1}^L \hat{\lambda}_l \Norm_R(\hat{\bm{b}}_{gp}|\bm{0}, U_{gp0l} + \hat{V}_{gp})}
+      &=  \sum_{l=1}^L \frac {\hat{\lambda}_l  \Norm_R(\hat{\bm{b}}_{gp}|\bm{0}, U_{gp0l} + \hat{V}_{gp})  \Norm_R(\bm{b}_{gp}|\bm{\mu}_{gp1jl}, U_{gp1jl})} {\sum_{l=1}^L \hat{\lambda}_l \Norm_R(\hat{\bm{b}}_{gp}|\bm{0}, U_{gp0l} + \hat{V}_{gp})}
        \end{aligned} 
        \end{equation}
  
