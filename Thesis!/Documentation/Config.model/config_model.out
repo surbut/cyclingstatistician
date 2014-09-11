@@ -1,8 +1,0 @@
-\BOOKMARK [1][-]{section.1}{Likelihood of the whole data set}{}% 1
-\BOOKMARK [1][-]{section.2}{Focus on a single gene-SNP pair}{}% 2
-\BOOKMARK [1][-]{section.3}{Hierarchical model for all gene-SNP pairs}{}% 3
-\BOOKMARK [1][-]{section.4}{Augmented likelihood}{}% 4
-\BOOKMARK [1][-]{section.5}{EM algorithm}{}% 5
-\BOOKMARK [1][-]{section.6}{Posteriors on latent variables}{}% 6
-\BOOKMARK [1][-]{section.7}{Posteriors on genotype effect sizes}{}% 7
-\BOOKMARK [2][-]{subsection.7.1}{Computing the Full Joint Posterior on bgp}{section.7}% 8
