@@ -1,0 +1,14 @@
+\contentsline {section}{\numberline {1}Motivation}{1}{section.1}
+\contentsline {section}{\numberline {2}Likelihood of the whole data set}{2}{section.2}
+\contentsline {section}{\numberline {3}Hierarchical model for all gene-SNP pairs}{2}{section.3}
+\contentsline {section}{\numberline {4}Focus on a single gene-SNP pair}{3}{section.4}
+\contentsline {subsection}{\numberline {4.1}Introducing types in the Bayes factor}{3}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Solution 1: average over all configurations per type}{4}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Solution 2: condition on the average effect instead of its prior variance}{5}{subsection.4.3}
+\contentsline {section}{\numberline {5}Augmented likelihood}{9}{section.5}
+\contentsline {section}{\numberline {6}EM algorithm}{10}{section.6}
+\contentsline {subsection}{\numberline {6.1}Calculate the derivative of ${\text {BF}}_{gpkl}$ w.r.t. $q_k$}{11}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Calculate the derivative of ${\text {BF}}_{gpkl}$ w.r.t. $q_{kr}$}{11}{subsection.6.2}
+\contentsline {section}{\numberline {7}Posteriors on latent variables}{12}{section.7}
+\contentsline {section}{\numberline {8}Posteriors on genotype effect sizes}{12}{section.8}
+\contentsline {section}{\numberline {9}Prior on types}{12}{section.9}

@@ -1,0 +1,143 @@
+\documentclass[12pt,oneside]{article}
+
+% Page Layout
+\usepackage[hmargin={1.5in, 1.5in}, vmargin={1.5in, 1.5in}]{geometry}
+
+%\usepackage{rotating}
+
+
+% Spacing
+%\usepackage{setspace}
+% Use \singlespacing, \onehalfspacing, or \doublespacing,
+% or alternatively \setstretch{3} for triple spacing (or any other number).
+
+% Mathematical Notation
+\usepackage{amsmath,amstext,amssymb,amsfonts}
+
+
+% Colors				
+\usepackage{xcolor,colortbl}
+
+
+\renewcommand{\Pr}{\mathsf{P}}
+\newcommand{\prob}[1]{\Pr\left(#1\right)}
+\newcommand{\given}{\mid}
+\newcommand{\me}{\mathrm{e}} % use for base of the natural logarithm
+\newcommand{\md}{\mathrm{d}} % use for base of the natural logarithm
+\newcommand{\var}{\mathrm{Var}}
+\newcommand{\mean}{\mathrm{E}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\like}{\mathcal{L}}
+\newcommand{\loglike}{\mathcal{L}\mathcal{L}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\nin}{\noindent}
+
+
+
+\def\logten{\log_{10}}
+\def\Wm{\mathbf W_{m}}
+\def\Var{\mathbf {\hat V}}
+\def\bhat{\hat{\boldsymbol{\beta}}}
+\def\trueb{\boldsymbol{\beta}}
+
+\def\BFav{{\rm BF}_\text{av}}
+\def\BFuni{{\rm BF}_\text{uni}}
+\def\BFldl{{\rm BF}_\text{ldl}}
+\def\BF{\rm BF}
+\def\ABF{\rm ABF}
+\def\BFall{{\rm BF}_\text{all}}
+
+
+\newcommand{\zuk}[1]{\textcolor{red}{[#1 --Or]}}
+\newcommand{\heejung}[1]{\textcolor{blue}{[#1 --Heejung]}}
+
+%\usepackage{alltt}
+% for mathematical notation in a verbatim-like environment
+% \begin{alltt} ... \end{alltt}
+
+% Graphics
+\usepackage{graphicx}
+%\usepackage[small]{subfigure}
+% for subfigures in a single figure
+
+%\usepackage{epsfig,rotating,epsf,psfrag,lscape}
+
+% Citations
+\usepackage{natbib}
+
+% Style for sections and such.
+%\usepackage{mbe}
+%\usepackage{genetics}
+
+\begin{document}
+\section{Solving for the Posterior Distribution on \trueb: Motivating the problem}
+
+
+\begin{equation}
+ \Pr(\boldsymbol{\beta} \given D)=\sum_{m=1}^M \Pr(\boldsymbol{\beta} \given D, Z = m) Pr( Z = m | D)
+\end{equation}
+
+If $\trueb$ results from a mixture of multivariate normals across many different prior covariance matrices $\Wm$ and clusters of 'types', we need to compute the posterior on $\trueb$. We might also assume that the observed variance in effect sizes, $\Var$, is a diagonal matrix.
+
+
+\subsection{Prior specification}
+
+Taking a Bayesian approach to inference, we place the following priors (a mixture of normal distributions) on $\boldsymbol{\beta}$
+\begin{eqnarray}
+	\boldsymbol{\beta} \given \pi &\sim& \sum_{m=1}^M \pi_{m}^\beta \Normal(\mathbf{0}, \mathbf{W_{m}})
+\end{eqnarray}
+where $\pi = (\pi_1, \ldots, \pi_M)$ are the mixture proportions which are constrained to be non-negative and sum to one, \textbf W = (W_1, \ldots, W_M)$ are the $S$ by $S$ grid of effect-size prior variance matrices for each normal distribution. For now, we assume that the variance matrices $\Wm$ are known and estimates $\pi$ by using an empirical Bayes procedure - that is we find the maximum-likelihood estimator. 
+
+\subsection{BF and posterior prob approximation}
+\label{sec:Model_threeGeno_BF_post}
+MLE for $\pi$, the prior weight on $Pr(z_{i}=m)$ can be computed as described using the EM algorithm.
+
+Let $\mathbf \Vm= \bf Var(\hat{\boldsymbol{\beta}})$ and $\Wm = \mathbf{W_{m}}$, the group-specific variance. We exploit the fact that 
+
+\begin{eqnarray}
+E(\bhat) &=& E(E(\bhat|\trueb) = E (\trueb) = 0\\
+Var( \bhat)&=& Var(E(\bhat|\trueb) + E(Var(\bhat|\trueb))\\
+&=& \Wm+ \mathbf{V}
+\end{eqnarray}
+
+Recognizing that we can use $\hatb$ as a sufficient statistic to summarize our data:
+
+\begin{eqnarray}
+%(2\pi)^{-\frac{k}{2}}|\boldsymbol    |^{-\frac{1}{2}}\, e^{ -\frac{1}{2}(\mathbf{x}-\boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x}-\boldsymbol\mu)
+\Pr(D \given Z = m) &=& \Pr(\hat \beta \given Z = m)\\
+\hat \beta \given Z = m &\sim& \Normal( 0, \Wm+ \Var)\\
+\Pr (\hat \beta \given Z = m) &=&{(2\pi)^{-k/2}  |  \Var+  \Wm|^{\frac{-1}{2}}   \exp{[ -\frac{\bhat^\prime ( \Wm+ \mathbf{V})^{-1}\bhat}{2}]}.
+\end{eqnarray}
+
+And a posterior on $\boldsymbol{\beta}$ is
+\begin{eqnarray}
+\Pr(\boldsymbol{\beta} \given D, Z = m) &\propto& \like(\boldsymbol{\beta})\Pr(\boldsymbol{\beta} \given Z = m)\\
+&\propto&	\exp{[-\frac{(\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})^\prime \Var^{-1} (\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})}{2}]} \exp{[-\frac{\boldsymbol{\beta}^\prime \Wm \boldsymbol{\beta}}{2}]}.
+					\end{eqnarray}
+leading to
+\begin{eqnarray}
+\boldsymbol{\beta} \given D, Z =  &\sim& \Normal((\Var^{-1} + \Wm^{-1})^{-1}\Var^{-1}\bhat}}, (\Var^{-1} + \Wm^{-1})^{-1}).
+\end{eqnarray}
+
+So, we will sum over all possible posteriors $\boldsymbol{\beta} \given D, Z = m $ and weights :
+
+\begin{eqnarray}
+Pr(\boldsymbol \beta \given D) &=& \sum_{m=1}^M Pr(Z = m | D) Pr(\boldsymbol \beta \given D, Z= m) \\
+&=& \sum_{m=1}^M \frac{\pi_m Pr(D | Z=m)}{\sum_n \pi_n Pr(D | Z=n)} Pr(\boldsymbol \beta \given D, Z = m).
+\end{eqnarray}
+
+Where the posterior weights arise from (8) and the contributions of the posterior according to each combination of prior variances $\Wm$ arises from the individual multivariate normals specified in (12).
+
+
+
+
+
+
+
+\bibliographystyle{rss}
+\bibliography{sum}
+
+
+\end{document}
+

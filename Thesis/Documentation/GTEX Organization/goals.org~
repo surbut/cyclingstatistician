@@ -1,0 +1,10 @@
+* Tasks
+** TODO Update on completed effect size document and .Rmd file
+** TODO Introduce to the organization on the cluster
+** TODO Talk about implementing type model and tabix/file structure:
+   vcf-->bed file. Where are gene and SNP coordinates?
+   I'm really having trouble getting the file structure appropriate
+   to implement Tim's model, and it's difficult to get computer help
+   from abroad. I think I might learn more if I could work with
+   someone with some experience on this matter temporarily>
+** TODO Thesis project: More stats vs. genetics, or am I a data person?

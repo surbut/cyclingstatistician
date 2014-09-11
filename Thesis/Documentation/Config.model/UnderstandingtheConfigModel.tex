@@ -1,0 +1,285 @@
+\nonstopmode  % to allow pdflatex to compile even if errors are raised (e.g. missing figures)
+
+\documentclass[10pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+% \graphicspath{{./figures/}} % save all figures in the same directory
+\usepackage{color} 
+\usepackage{hyperref}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+% Text layout
+\topmargin 0.0cm
+\oddsidemargin 0.5cm
+\evensidemargin 0.5cm
+\textwidth 16cm 
+\textheight 21cm
+
+%% PLEASE INCLUDE ALL MACROS BELOW
+%\newcommand{\Prob}{\mathbb{P}} % symbol for discrete proba
+\newcommand{\Prob}{\Pr} % symbol for discrete proba
+\newcommand{\Prd}{\mathsf{P}} % symbol for discrete proba
+\newcommand{\Exp}{\mathbb{E}} % symbol for expectation
+\newcommand{\Var}{\mathbb{V}} % symbol for variance
+\newcommand{\Cov}{\mathbb{C}} % symbol for covariance
+\newcommand{\Norm}{{\mathcal{N}}} % symbol for Normal distribution
+\newcommand{\BF}{{\text{BF}}} % symbol for Bayes factor
+\newcommand{\Lik}{{\mathcal{L}}} % symbol for likelihood
+\newcommand{\bma}{{\BF_\text{BMA}}}
+\newcommand{\bmalite}{{\BF_\text{BMAlite}}}
+\newcommand{\av}{\mbox{\boldmath$\alpha$}}
+\newcommand{\dv}{\bm{d}}
+\newcommand{\der}{{\text{d}}} % "derivation" symbol inside integrals
+\newcommand{\bv}{\mbox{\boldmath$\beta$}}
+\newcommand{\tauv}{\mbox{\boldmath$\tau$}}
+\newcommand{\cv}{\mbox{\boldmath$c$}}
+\newcommand{\bbv}{\tilde \bv}
+\newcommand{\bev}{\mbox{\boldmath$b$}}
+\newcommand{\ev}{\mbox{\boldmath$e$}}
+\newcommand{\thv}{\mbox{\boldmath$\theta$}}
+\newcommand{\tv}{\mbox{\boldmath$t$}}
+\newcommand{\fv}{\mbox{\boldmath$f$}}
+
+\newcommand{\bs}{\mbox{\boldmath$b_{s}$}}
+\newcommand{\bt}{\mbox{\boldmath$b^{t}_{s}$}}
+
+\newcommand{\bbar}{\mbox{\boldmath$\bar{b}$}}
+\newcommand{\bbt{\mbox{\boldmath$\bar{b}^{t}$}}
+
+\newcommand{\xs}{\mbox{\boldmath$X_{s}$}}
+\newcommand{\ys}{\mbox{\boldmath$Y_{s}$}}
+\newcommand{\phis}{\mbox{\boldmath$\Phi^{-1}_{s}$}}
+\newcommand{\om}{\mbox{\boldmath$\Omega^{-1}_{s}$}}
+\newcommand{\mun}{\mbox{\boldmath$\mu_{s}$}}
+\newcommand{\bhat}{\mbox{\boldmath$\hat{\beta}_{s}$}}
+\newcommand{\vin}{\mbox{\boldmath$V^{-1}$}}
+\newcommand{\win}{\mbox{\boldmath$W^{-1}$}}
+
+\newcommand{\Cv}{\mbox{\boldmath$C$}}
+\newcommand{\Dv}{\mbox{\boldmath$D$}}
+\newcommand{\Fv}{\mbox{\boldmath$F$}}
+\newcommand{\gav}{\mbox{\boldmath$\gamma$}}
+\newcommand{\Gav}{\mbox{\boldmath$\Gamma$}}
+\newcommand{\Kv}{\mbox{\boldmath$K$}}
+\newcommand{\iv}{\mbox{\boldmath$I$}}
+\newcommand{\vv}{\mbox{\boldmath$v$}}
+\newcommand{\pv}{\mbox{\boldmath$p$}}
+\newcommand{\hv}{\mbox{\boldmath$h$}}
+\newcommand{\gv}{\mbox{\boldmath$g$}}
+\newcommand{\wv}{\mbox{\boldmath$w$}}
+\newcommand{\Wv}{\mbox{\boldmath$W$}}
+\newcommand{\Pv}{\mbox{\boldmath$P$}}
+\newcommand{\Qv}{\mbox{\boldmath$Q$}}
+\newcommand{\Rv}{\mbox{\boldmath$R$}}
+\newcommand{\rv}{\mbox{\boldmath$r$}}
+\newcommand{\sv}{\mbox{\boldmath$s$}}
+\newcommand{\Sv}{\mbox{\boldmath$S$}}
+\newcommand{\Sigv}{\mbox{\boldmath$\Sigma$}}
+\newcommand{\qv}{\mbox{\boldmath$q$}}
+\newcommand{\Mv}{\mbox{\boldmath$M$}}
+\newcommand{\mv}{\mbox{\boldmath$\mu$}}
+\newcommand{\mvg}{\mbox{\boldmath$\mu_g$}}
+\newcommand{\Lv}{\mbox{\boldmath$L$}}
+\newcommand{\lav}{\mbox{\boldmath$\lambda$}}
+\newcommand{\Tv}{\mbox{\boldmath$T$}}
+\newcommand{\Xv}{\mbox{\boldmath$X$}}
+\newcommand{\xv}{\mbox{\boldmath$x$}}
+\newcommand{\Uv}{\mbox{\boldmath$U$}}
+\newcommand{\Vv}{\mbox{\boldmath$V$}}
+\newcommand{\yv}{\mbox{\boldmath$y$}}
+\newcommand{\yvg}{\mbox{\boldmath$y_g$}}
+\newcommand{\Yv}{\mbox{\boldmath$Y$}}
+\newcommand{\Zv}{\mbox{\boldmath$Z$}}
+\newcommand{\zv}{\mbox{\boldmath$z$}}
+\newcommand{\lv}{\bf{1}}
+\newcommand{\muLS}{\ensuremath{\hat{\mv}}}
+\newcommand{\SigmaLS}{\ensuremath{\hat{\Sigma}}}
+\newcommand{\fvPanel}{\ensuremath{\fv^{\rm panel}}}
+\newcommand{\isa}{\ensuremath{\sigma_a^{-2}}}
+\newcommand{\bfa}{\ensuremath{{\rm BF}}}
+\newcommand{\hbfes}{\ensuremath{\widehat {\rm BF}^{\rm ES}}}
+\newcommand{\hbfesmeta}{\ensuremath{\widehat {{\rm BF}}^{\rm ES}_{\rm meta}}}
+\newcommand{\hbfesfix}{\ensuremath{\widehat {{\rm BF}}^{\rm ES}_{\rm fix}}}
+\newcommand{\hbfesmax}{\ensuremath{\widehat {{\rm BF}}^{\rm ES}_{\rm maxH}}}
+\newcommand{\hbfee}{\ensuremath{ \widehat {\rm BF}^{\rm EE} }}
+\newcommand{\abfes}{\ensuremath{{\rm ABF^{ES}}}}
+\newcommand{\abfee}{\ensuremath{{\rm ABF^{EE}}}}
+\newcommand{\abfesc}{\ensuremath{{\rm A^*BF^{ES}}}}
+%% END MACROS SECTION
+
+\begin{document}
+
+\title{Statistical framework from Flutre, Wen, Pritchard and Stephens (PLoS Genetics, 2013): Halfway to understanding the Bayes Factors}
+\author{Sarah Urbut}
+\date{\today}
+
+\maketitle
+
+\tableofcontents
+
+\vspace{1cm}
+
+This document describes the statistical framework with more details and sometimes a slightly different notation, notably inspired by Wen \& Stephens (Annals of Applied Statistics, 2014) and Wen (Biometrics, 2014).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Likelihood of the whole data set}
+
+\section{Focus on a single gene-SNP pair}
+
+The likelihood for gene $g$ and SNP $p$ is:
+\begin{equation}
+Y_g | X_p, B_{gp}, X_c, B_{gc}, \Sigma_{gp} \sim \Norm_{N \times R}(X_p B_{gp} + X_c B_{gc}, I_N, \Sigma_{gp})
+\end{equation}
+
+where:
+\begin{itemize}
+\item $Y_g$ is the $N \times R$ matrix of expression levels;
+\item $X_p$ is the $N \times 1$ matrix of genotypes (assuming the same individuals in all tissues);
+\item $B_{gp}$ is the unknown $1 \times R$ matrix of genotype effect sizes;
+\item $X_c$ is the $N \times (1+Q)$ matrix of known covariates (including a column of 1's for the intercepts);
+\item $B_{gc}$ is the unknown $(1+Q) \times R$ matrix of covariate effect sizes (including the $\mu_s$);
+\item $\Norm_{N \times R}$ is the \href{https://en.wikipedia.org/wiki/Matrix_normal_distribution}{matrix Normal distribution};
+\item $\Sigma_{gp}$ is the unknown $R \times R$ covariance matrix of the errors.
+\end{itemize}
+
+For mathematical convenience (especially in the case of multiple SNPs), we vectorize the rows of $B_{gp}$ into $\bm{\beta}_{gp}$.
+Here, as we focus on one SNP at a time, we directly have $\bm{\beta}_{gp} = B_{gp}^T$.
+
+The conditional posterior of B:
+$\mathsf{P}(B | Y, X, \tau) = \frac{\mathsf{P}(B, Y | X, \tau)}{\mathsf{P}(Y | X, \tau)}$
+
+Let's neglect the normalization constant for now. We note that if we expand this expression in full, we get the following:
+\begin{equation}
+\Pr(\bs|\ys,\xs,\phis) \propto \exp( (\bs - \bbar)^{t} \phis (\bs - \bbar)) \exp ( (\ys -\xs \bs)^{t} (\ys -\xs \bs))
+\end{equation}
+
+Taking terms out of the exponent and distributing terms, we arrive at:
+
+
+\begin{equation}
+\Pr(\bs|\ys,\xs,\phis) \propto \bs^{t} \phis \bs - \bs^{t} \phis \bbar - \bbar^{t} \phis \bs + \bbar^{t} \phis \bbar + \ys^{t} \ys -(\xs \bs)^{t} \ys - \ys^{t} \xs \bs + (\xs \bs )^{t} (\xs \bs)
+\end{equation}
+
+We will first leave out the terms that don't include $\bs$, i.e., $\ys^{t} \ys$ and $\bbar^{t} \phis \bbar$, and group some terms:
+
+\begin{equation}
+\Pr(\bs|\ys,\xs,\phis) \propto \bs^{t} ( \phis + \xs^{t} \xs) \bs - \bs^{t} (\phis \bbar - \xs^{t} \ys)^{t} - ( \phis \bbar + \xs^{t} \ys)^{t} \bs  
+\end{equation}
+
+In order to aid our completion of the square, let's add a term that doesn't contain $\bs$ which is a legitimate
+\begin{equation}
+(\phis \bbar + \xs^{t} \ys)^{t} (\phis - \xs^{t} \xs) ( \phis \bbar + \xs^{t} \ys)
+\end{equation}
+
+Now, let's define $\om$ as: ($\phis - \xs^{t} \xs$)
+and $\mun$ as  ($\phis - \xs^{t} \xs$) (\phis \bbar + \xs^{t} \ys)
+
+ Then it becomes apparent that we can rewrite $\Pr(\bs|\ys,\xs,\phis)$ as:
+
+\begin{equation}
+\Pr(\bs|\ys,\xs,\phis) \propto (\bs - \mun)^{t} \om ( \bs - \mun) 
+\end{equation}
+
+So that when we compute the marginal probability of Y:
+
+\begin{equation}
+\Pr(\ys|\xs) = \frac{\Pr(\bs | \ys,  \xs, \tau) \Pr(\bs | \tau, \bbar)}{\Pr(\bs | \ys, \xs, \tau)}
+\end{equation}
+
+It is obvious that the numerator will contain the two terms we neglected (because they didn't contain $\bs$) in (3) and the denominator will contain the term we added in (4), $(\phis \bbar + \xs^{t} \ys)^{t} (\phis - \xs^{t} \xs) ( \phis \bbar + \xs^{t} \ys)$.
+
+Thus the marginal likelihood is:
+
+
+\begin{equation}
+\begin{aligned}
+\Pr(\ys|\xs) = {\frac{ 2 \pi}{\tau_{s}}^{-n_{s}/2} \begin{vmatrix} \phis \end{vmatrix} ^{\frac{-1}{2}} \begin{vmatrix} ($\phis + \xs^{t} \xs$) \end{vmatrix}^{\frac{-1}{2}} * \\
+\exp (\frac{1}{2}}(\ys^{t} \ys$ - (\phis \bbar + \xs^{t} \ys)^{t} (\phis - \xs^{t} \xs)^{-1} ( \phis \bbar + \xs^{t} \ys) -  $\bbar^{t} \phis \bbar$))
+\end{aligned}
+\end{equation}
+
+When we integrate over $\bbar$, we could have just done the integral over $\bs$ rather than $\bs \given \bbar$ which would be  $\bs \sim (\mathbf 0, \mathbf W)$, where $W$ is the prior matrix of covariance effects, with $\phi + \omega$ on the diagonal and $\omega$ on the off-diagonal. This is akin to what is done in the biometric paper, where:
+
+\begin{equation}
+\begin{aligned}
+p (\bs | \xs \M1) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \win \bs)]}\\
+\propto \exp (\frac{-1}{2}[(\bs^{t} (\vin+\win)\bs)] - (\bs^{t}(\vin \bhat) +(\bhat^{t} \vin) \bs))
+\end{equation}
+\end{aligned}
+
+And under the Null Hypothesis,
+
+\begin{equation}
+\begin{aligned}
+p (\bs | \xs \M0) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \win \bs)]}\\
+p (\bs | \xs \M0) \propto \exp (\frac{-1}{2}[(\bs-\bhat)^{t} \vin(\bs-\bhat) + (\bs^{t} \mathbf{0} \bs)]}\\
+\propto \exp (\frac{-1}{2}[(\bs^{t} (\vin)\bs)] - (\bs^{t}(\vin \bhat) +(\bhat^{t} \vin) \bs))
+\end{equation}
+\end{aligned}
+
+Analogous to the previous situation, we have omitted an additional term contained in the likelihood of $\Pr (\bhat | \xs, \mathbf E)$ because it didn't contain $\bs$, $\bhat^{t}\vin \bhat$ and we have added an additional term to only the alternative model:
+
+\begin{equation}
+ \bs^{t}(\vin \bhat) (\vin+\win) (\bhat^{t} \vin) \bs
+ \end{equation}
+ 
+ Crucially, in computing the Bayes Factor
+ \begin{equation}
+ \frac{\Pr (\bhat | \xs, \mathbf E, M1)}{\Pr (\bhat | \xs, \mathbf E, M0)}
+ \end{equation}
+ 
+ Only the added term is present in the numerator and not the denominator, and so we can see that the Bayes Factor will be proportional to:
+ \begin{equation}
+  $\exp (\bs^{t}(\vin \bhat) (\vin+\win) (\bhat^{t} \vin) \bs)$
+ \end{equation}
+ which, intuitively, augments the likelihood of the data by the prior covariance matrix of the effects, incorporating prior belief about shared effect and thus increasing our power to detect such homogeneity. This results from the fact that $\bs$, $\bhat^{t}\vin \bhat$ is present in both the alternative and null models, but   $\exp (\bs^{t}(\vin \bhat) (\vin+\win) (\bhat^{t} \vin) \bs)$ is added only in the alternative models, where there exists a distribution of non-zero values for $\bs$. Furthermore, if we imagine that the likelihood function will have most of its density at $\bs = \bhat$ and thus the the marginal probability  $\Pr (\bhat | \xs, \mathbf E, M1)}$ will really depend on the prior probability assigned to $\bs$ at $\bs = \bhat$, the use of a prior which assumes and thus upweights values of $\bs$ near a shared 'mean' effect size will be of benefit if such a shared effect size exists.
+
+ 
+
+\begin{itemize}
+\item{1. In the simplest case, assuming the $\tau$ is known, if we consider as the product of all marginal likelihoods, then how are we really exploiting the covariance in effects? I still don't see it -- the Y vectors are $n$ x $1$, and so the covariance in effects in the offi diagonal terms is not in the $ABF_{random}$}
+
+This is only because we integrate over $\bs$ first - if we had integrated over $\bbar$ first, it would not have been so. We would have brought everything back into 1, and then it becomes factored again because the residuals are uncorrelated.
+
+\item{2. We can use a product because we assume the vectors of residual errors are independent across populations, but the effects are not (in any case by the max H case). So is the product because of the conditional exchangeability?}
+
+Yes! 
+
+\item{ 3. I see that we are pooling the Bayes Factors by the product, which I guess increases our sample size (by sheer more terms in our product) but even if the residuals are independent, we miss the covariance in effects inherent in the data}
+
+False, this is is accounted for by the prior covariance in effects which is captured in the shared mean --- thus though the residuals are independent, the covariance in effects implies that the effects are not.
+
+\item{4. Perhaps the product refers to conditional on the mean $\bbar$, they are exchangeable (i.e., independent) but then we are replying only on the BF(fixed) to reinforce our covariance in effects.
+
+Yes -- this is true only in the met analysis case. The exchangeability allows us to factor the likelihood with $\bs$ conditional on $\bbar$ because each $\bs$ is i.i.d. conditional on $\bbar$ (see DeFinetti's theorem); however, when we return to integrate $\bbar$ out, the product no longer factorizes. In the met analysis case where the $\tau$s are independent, integrating out $\tau$ returns the factorization; however, if we make no assumption about the independence of residual variances, then we must consider the distribution of the Bayes Factor of a multivariate vectors (i.e., the product of $n$ 1 x S vectors rather than n x s vectors.
+
+\end{itemize}
+
+From William's paper:
+\begin{quote}
+\emph{The off diagonal of matrix $\mathbf{W_{g}}$ defines context-dependent prior correlation between non-zero regression coefficients. Incorporating they information enables borrowing strength across correlated components in $\beta_{g}$, thereby improving the efficiency of model selection.}
+\end{quote}
+
+But if we use a product over all $\bs$, then how are we incorporating the off-diagonal elements? Is it just through the fixed effect term on the left, or does the term on the right incorporate the greater probability that \bs arises from a shared effects mode? I don't think it can because it doesn't pay any attention to other data. Maybe if I could see where the prior on shared effect came into the Bayes factor ...
+
+Also: Kass LaPlace Approximation: I see that the majority of the Mass of the BF will fall at the MLE, but don't we still need to weight by the prior probability of that parameter?
+
+\section{Answers!}
+
+\item{2. We can use a product because we assume the vectors of residual errors are independent across populations, but the effects are not (in any case by the max H case). So is the product because of the conditional exchangeability?}
+
+Yes! See above explanations!
+
+
+
+
+
+
+
+\end{document}

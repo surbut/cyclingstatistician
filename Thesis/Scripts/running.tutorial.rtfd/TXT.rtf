@@ -1,0 +1,109 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red56\green110\blue255;\red196\green26\blue22;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{none\}.}{\leveltext\leveltemplateid1\'01.;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{none\}.}{\leveltext\leveltemplateid101\'01.;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs24 \cf0 \
+ cd ~/src/eqtlbma/\
+ wget {\field{\*\fldinst{HYPERLINK "https://github.com/timflutre/eqtlbma/archive/master.zip"}}{\fldrslt \cf2 \ul \ulc2 https://github.com/timflutre/eqtlbma/archive/master.zip}}\
+ unzip master\
+ rm master\
+ cd eqtlbma-master/\
+ autoreconf --install --force --symlink\
+ ./configure --prefix=$HOME LDFLAGS=-L/usr/local/lib\
+ make\
+ make check\
+ \
+make install\
+which tutorial_eqtlbma.R\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls1\ilvl0
+\f1\fs30 \cf0 cd $HOME\
+mkdir sim2_eqtlbma\
+cd sim2_eqtlbma\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls1\ilvl0
+\f0\fs24 \cf0 {\listtext	.	}\
+\pard\pardeftab720
+\cf0 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls2\ilvl0
+\f1\fs30 \cf0 tutorial_eqtlbma.R \\\
+--pkg ~/src/eqtlbma/eqtlbma-master \\\
+\pard\tx529\pardeftab529\pardirnatural
+\ls2\ilvl0
+\f2\fs22 \cf3 \CocoaLigature0 --
+\f1\fs30 \cf0 \CocoaLigature1 nsbgrps 9 \\\
+\ls2\ilvl0
+\f2\fs22 \cf3 \CocoaLigature0 --ngenes 
+\f1\fs30 \cf0 \CocoaLigature1 200 \\\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls2\ilvl0\cf0 --coverr 0 \\\
+>& stdout_tutorial_eqtlbma8.txt\
+\pard\pardeftab720
+
+\f0\fs24 \cf0 \
+\pard\pardeftab720
+
+\f1\fs30 \cf0 eqtlbma_bf \\\
+--geno list_genotypes.txt \\\
+--scoord snp_coords.bed.gz \\\
+--exp list_explevels.txt \\\
+--gcoord gene_coords.bed.gz \\\
+--anchor TSS \\\
+--cis 1000 \\\
+--out out_eqtlbma \\\
+--type join \\\
+--covar list_covariates.txt \\\
+--gridL grid_phi2_oma2_general.txt \\\
+--gridS grid_phi2_oma2_with-configs.txt \\\
+--bfs sin \\\
+--error uvlr \\\
+\pard\pardeftab720
+
+\f0\fs24 \cf0 --outss \\
+\f1\fs30 \
+>& stdout_eqtlbma_bf.txt\
+\
+
+\f0\fs24 \
+\pard\pardeftab720
+
+\f1\fs30 \cf0 eqtlbma_hm \\\
+--data "out_eqtlbma_l10abfs_raw.txt.gz" \\\
+--nsubgrp 9 \\\
+--dim 7 \\\
+--ngrid 10 \\\
+--model types \\\
+--out out_eqtlbma_hm.txt.gz \\\
+>& stdout_eqtlbma_hm.txt\
+\pard\pardeftab720
+
+\f0\fs24 \cf0 \
+\pard\pardeftab720
+
+\f1\fs30 \cf0 zcat out_eqtlbma_hm.txt.gz | grep "#grid" | cut -f2 > grid_weights.txt\
+zcat out_eqtlbma_hm.txt.gz | grep "#config" \\\
+| awk \'91\{split($1,a,"."); print a[2]"\\t"$2\}\'92 > config_weights.txt ###But re enter single quotes\
+\
+eqtlbma_avg_bfs \\\
+--in "out_eqtlbma_l10abfs_raw.txt.gz" \\\
+--gwts grid_weights.txt \\\
+--nsubgrp 9 \\\
+--dim 10 \\\
+--cwts config_weights.txt \\\
+--save post \\\
+--pi0 0.3 \\\
+--post a+b+c+d \\\
+--bestdim \\\
+--alldim \\\
+--out out_eqtlbma_avg_bfs.txt.gz \\\
+>& stdout_eqtlbma_avg_bfs.txt\
+}

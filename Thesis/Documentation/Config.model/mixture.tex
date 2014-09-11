@@ -1,0 +1,125 @@
+\documentclass[12pt,letterpaper]{article}
+
+% Page Layout
+\usepackage[hmargin={1.5in, 1.5in}, vmargin={1.5in, 1.5in}]{geometry}
+
+\usepackage{rotating}
+
+
+% Spacing
+\usepackage{setspace}
+% Use \singlespacing, \onehalfspacing, or \doublespacing,
+% or alternatively \setstretch{3} for triple spacing (or any other number).
+
+% Mathematical Notation
+\usepackage{amsmath,amstext,amssymb,amsfonts}
+
+
+% Colors				
+\usepackage{xcolor,colortbl}
+
+
+\renewcommand{\Pr}{\mathsf{P}}
+\newcommand{\prob}[1]{\Pr\left(#1\right)}
+\newcommand{\given}{\mid}
+\newcommand{\me}{\mathrm{e}} % use for base of the natural logarithm
+\newcommand{\md}{\mathrm{d}} % use for base of the natural logarithm
+\newcommand{\var}{\mathrm{Var}}
+\newcommand{\mean}{\mathrm{E}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\like}{\mathcal{L}}
+\newcommand{\loglike}{\mathcal{L}\mathcal{L}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\nin}{\noindent}
+
+
+
+\def\logten{\log_{10}}
+\def\BFav{{\rm BF}_\text{av}}
+\def\BFuni{{\rm BF}_\text{uni}}
+\def\BFldl{{\rm BF}_\text{ldl}}
+\def\BF{\rm BF}
+\def\ABF{\rm ABF}
+\def\BFall{{\rm BF}_\text{all}}
+
+
+\newcommand{\zuk}[1]{\textcolor{red}{[#1 --Or]}}
+\newcommand{\heejung}[1]{\textcolor{blue}{[#1 --Heejung]}}
+\usepackage{graphicx}\usepackage{natbib}
+
+
+\begin{document}
+
+First, we recognize that our prior distribution on $\boldsymbol \beta$ actually results from a mixture of multivariate normals.
+
+\begin{equation}
+$\boldsymbol{\beta} \given \lambda ^{\beta} &\sim& \sum_{m=1}^M \lambda^\beta \Normal(\mathbf{0}, \W),$
+\end{equation}
+
+where for each W_{m} $in$ M, we have that W_{m} = $\phi_{m} + \omega_{m}$ on the diagonal and $\omega$ on the off-diagonal.
+
+In computing a mixture distribution, we recognize that 
+\begin{array}
+
+p(\theta\given D) \propto f(x\given \theta) \sum{w_{i}p_{i}(theta)})
+\propto \sum{w_{i}p_{i}(theta)f(x\given \theta)})
+\propto 
+
+\subsection{BF and posterior prob approximation}
+\label{sec:Model_threeGeno_BF_post}
+MLE for $\pi_{sl}^\alpha$ and posterior on $\alpha_{sl}$ can be computed as described in the previous sections. 
+This section describes derivations for the approximate Bayes Factor ($\ABF$) and posterior on $\boldsymbol{\beta}_{sl}$ when $\boldsymbol{\beta}_{sl} \sim \Normal(\mathbf{0}, \sigma^2_{sl,m}\mathbf{I}_2)$ ($Z_{sl} = m$) in the prior above. Then, MLE for $\pi_{sl}^\beta$ and posterior on $\boldsymbol{\beta}_{sl}$ can be computed as described in the previous sections. 
+
+I drop the subscript $s$ and $l$ for convenience. Let $\Sigma = I(\hat{\boldsymbol{\beta}})^{-1}$ and $A = \phi^2_m+\omega^2_m\mathbf{I}_2$+omega^2_m on the off-diagonal
+\begin{eqnarray}
+%(2\pi)^{-\frac{k}{2}}|\boldsymbol    |^{-\frac{1}{2}}\, e^{ -\frac{1}{2}(\mathbf{x}-\boldsymbol\mu)'\boldsymbol\Sigma^{-1}(\mathbf{x}-\boldsymbol\mu)
+\Pr(D \given Z = m) &=& \int \frac{C^\prime}{        2\pi|  \Sigma  |^{\frac{1}{2}}}  \exp{[-\frac{(\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})^\prime \Sigma^{-1}   (\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})}{2}]} \frac{1}{2\pi|  A  |^{\frac{1}{2}}    }  \exp{[-\frac{\boldsymbol{\beta}^\prime A^{-1} \boldsymbol{\beta}}{2}]}\mathrm{d}\boldsymbol{\beta}\\
+				&=&  \frac{C^\prime}{(2\pi)^2  |  \Sigma  |^{\frac{1}{2}}  |  A  |^{\frac{1}{2}}  } \int \exp{[   -\frac{(\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})^\prime \Sigma^{-1}   (\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})  +   \boldsymbol{\beta}^\prime A^{-1} \boldsymbol{\beta}}{2}    ]}\mathrm{d}\boldsymbol{\beta}
+\end{eqnarray}
+Let $\mathbf{b} = (\Sigma^{-1} + A^{-1})^{-1}\Sigma^{-1}\hat{\boldsymbol{\beta}}$, then $\Pr(D \given Z = m)$ 
+\begin{eqnarray}
+&=&\frac{C^\prime}{(2\pi)^2  |  \Sigma  |^{\frac{1}{2}}  |  A  |^{\frac{1}{2}}  } \int \exp{[   -\frac{(\boldsymbol{\beta} - \mathbf{b})^\prime (\Sigma^{-1} + A^{-1}) (\boldsymbol{\beta} - \mathbf{b})  -   \hat{\boldsymbol{\beta}}^\prime\Sigma^{-1}(\Sigma^{-1} + A^{-1})^{-1}\Sigma^{-1} \hat{\boldsymbol{\beta}}   +  \hat{\boldsymbol{\beta}}^\prime\Sigma^{-1}\hat{\boldsymbol{\beta}} }{2}    ]}\mathrm{d}\boldsymbol{\beta}\\	
+&=& \frac{C^\prime 2\pi | (\Sigma^{-1} + A^{-1})^{-1} |^{\frac{1}{2}}    }{(2\pi)^2  |  \Sigma  |^{\frac{1}{2}}  |  A  |^{\frac{1}{2}}  }   \exp{[  -\frac{-\hat{\boldsymbol{\beta}}^\prime\Sigma^{-1}(\Sigma^{-1} + A^{-1})^{-1}\Sigma^{-1} \hat{\boldsymbol{\beta}}   +  \hat{\boldsymbol{\beta}}^\prime\Sigma^{-1}\hat{\boldsymbol{\beta}} }{2}]}. 
+\end{eqnarray}
+And 
+\begin{eqnarray}
+\Pr(D \given \boldsymbol{\beta} = \mathbf{0}) &=& \frac{C^\prime}{     2\pi|  \Sigma  |^{\frac{1}{2}}  } \exp{[ -\frac{\hat{\boldsymbol{\beta}}^\prime \Sigma^{-1}\hat{\boldsymbol{\beta}}}{2}]}.
+\end{eqnarray}
+Then, $\ABF$ can be written as
+\begin{eqnarray}
+\BF_i(\sigma^2_m) &=&  \frac{\Pr(D \given Z = m)}{\Pr(D \given \boldsymbol{\beta} = \mathbf{0})}\\
+			       &=& \frac{  | (\Sigma^{-1} + A^{-1})^{-1} |^{\frac{1}{2}}} {   |  A  |^{\frac{1}{2}}}  \exp{[  -\frac{-\hat{\boldsymbol{\beta}}^\prime\Sigma^{-1}(\Sigma^{-1} + A^{-1})^{-1}\Sigma^{-1} \hat{\boldsymbol{\beta}} }{2}]}. \\
+			       &=& \frac{1} { |   I(\hat{\boldsymbol{\beta}})  +   \frac{1}{\sigma^2_m}\mathbf{I}_2  |^\frac{1}{2}  \sigma^2_m  }  \exp{[  -\frac{-\hat{\boldsymbol{\beta}}^\prime I(\hat{\boldsymbol{\beta}}) (I(\hat{\boldsymbol{\beta}})  +   \frac{1}{\sigma^2_m}\mathbf{I}_2)^{-1} I(\hat{\boldsymbol{\beta}}) \hat{\boldsymbol{\beta}} }{2}]}.
+\end{eqnarray}
+And a posterior on $\boldsymbol{\beta}$ is
+\begin{eqnarray}
+\Pr(\boldsymbol{\beta} \given D, Z = m) &\propto& \like(\boldsymbol{\beta})\Pr(\boldsymbol{\beta} \given Z = m)\\
+					&\propto&	\exp{[-\frac{(\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})^\prime   \Sigma^{-1}   (\boldsymbol{\beta} - \hat{\boldsymbol{\beta}})}{2}]} \exp{[-\frac{\boldsymbol{\beta}^\prime A^{-1} \boldsymbol{\beta}}{2}]}\\
+					&\propto& \exp{[   -\frac{(\boldsymbol{\beta} - \mathbf{b})^\prime (\Sigma^{-1} + A^{-1}) (\boldsymbol{\beta} - \mathbf{b})}{2}]},
+\end{eqnarray}
+leading to
+\begin{eqnarray}
+\boldsymbol{\beta} \given D, Z = m &\sim& \Normal(\mathbf{b}, (\Sigma^{-1} + A^{-1})^{-1})\\
+						      &\sim& \Normal((\Sigma^{-1} + A^{-1})^{-1}\Sigma^{-1}\hat{\boldsymbol{\beta}}, (\Sigma^{-1} + A^{-1})^{-1})\\
+						      &\sim& \Normal((I(\hat{\boldsymbol{\beta}}) +  \frac{1}{\sigma^2_m}\mathbf{I}_2)^{-1}I(\hat{\boldsymbol{\beta}})\hat{\boldsymbol{\beta}}, (I(\hat{\boldsymbol{\beta}}) +  \frac{1}{\sigma^2_m}\mathbf{I}_2)^{-1}).
+\end{eqnarray}
+Let $\mathbf{b} = (b_1, b_2)$ and $(\Sigma^{-1} + A^{-1})^{-1} = \Omega$, then 
+\begin{eqnarray}
+\Pr(\beta_1 \given D, Z = m) &\sim& \Normal(b_1, \omega_{1,1})\\
+\Pr(\beta_1 + \beta_2 \given D, Z = m) &\sim& \Normal(b_1 + b_2, \omega_{1,1} + \omega_{1,2} + \omega_{2,1} + \omega_{2,2}).
+\end{eqnarray}
+
+
+
+
+
+
+
+
+\bibliographystyle{rss}
+\bibliography{sum}
+
+
+\end{document}
+
