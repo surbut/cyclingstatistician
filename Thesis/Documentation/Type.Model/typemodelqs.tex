@@ -116,6 +116,8 @@ This document describes the ``type'' model, an extension of the ``config'' model
 \section{Motivation}
 
 \begin{itemize}
+\item Pending question from last time: Where does the MLE of the covariance in effects come from with summary stats of different tissues? (i.e., in our Config model document, the offidagonal elements of $\hat V_{gp}$) See SS.ex in the posterior.effect.size simulation?
+
 \item \emph{Most importantly, we assume that, given a type, the activity of an eQTL in tissue $r$ is independent from its activity in other tissues}
 
 \item However, does this still allow us to exploit the shared effect among tissues? For example, in the $\textbf{Likeilhood of the Whole Data Set pdf}$, equation (5) and (6) show that the prior covariance matrix is indexed by configurations.
