@@ -21,7 +21,7 @@ Now let's program!
 
 ```{r echo=FALSE}
 library("MASS")
-install.packages("gtools")
+#install.packages("gtools")
 library(gtools)
 dir.name="/Users/sarahurbut/genexp/"
 ```
@@ -197,7 +197,7 @@ plot.type(cov.eQTL,gene.type,tissue.types=c(5,6))
 plot.type(cov.eQTL,gene.type,tissue.types=c(7,8))
 plot.type(cov.eQTL,gene.type,tissue.types=c(9,10))
 
-install.packages("calibrate")
+#install.packages("calibrate")
 library(calibrate)
 
 par(mfrow=c(2,5))
