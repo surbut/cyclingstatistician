@@ -76,6 +76,8 @@
 \newcommand{\Uv}{\mbox{\boldmath$U$}}
 \newcommand{\Vv}{\mbox{\boldmath$V$}}
 \newcommand{\yv}{\mbox{\boldmath$y$}}
+\newcommand{\Sr}{\mbox{\boldmath$\Sigma$}}
+
 \newcommand{\yvg}{\mbox{\boldmath$y_g$}}
 \newcommand{\Yv}{\mbox{\boldmath$Y$}}
 \newcommand{\Zv}{\mbox{\boldmath$Z$}}
@@ -94,6 +96,8 @@
 \newcommand{\abfes}{\ensuremath{{\rm ABF^{ES}}}}
 \newcommand{\abfee}{\ensuremath{{\rm ABF^{EE}}}}
 \newcommand{\abfesc}{\ensuremath{{\rm A^*BF^{ES}}}}
+
+
 %% END MACROS SECTION
 
 \begin{document}
@@ -116,9 +120,20 @@ This document describes the ``type'' model, an extension of the ``config'' model
 \section{Motivation}
 
 \begin{itemize}
-\item Pending question from last time: Where does the MLE of the covariance in effects come from with summary stats of different tissues? (i.e., in our Config model document, the offidagonal elements of $\hat V_{gp}$) See SS.ex in the posterior.effect.size simulation?
+\item Pending question from last time: Where does the MLE of the covariance in effects come from with summary stats of different tissues? (i.e., in our Config model document, the off-dagonal elements of $\hat V_{gp}$) See SS.ex in the posterior.effect.size simulation?
+
+\item{\textbf{Answer (per William)}} This is indeed an issue. In the metanlysis case, this is actually always the case because we have no information about the covariance in standard errors of effect sizes from the data. However, the use of a prior which assumes some cross-tissue covariance (i.e., $\omega$ is non-zero) captures some of the `` true '' underlying tissue covariance. From the AoAS paper below:
+\begin{figure}[h]
+\includegraphics[scale=0.85]{b_bar.pdf}
+\end{figure}
+
+Note that the standard error of the fixed effect, $\zeta$, is really just the sum of the individual study-specific standard error  of the effects and each tissue-specific prior covariance term. Obviously, if the data is acquired from multiple outside studies, we would have no information about the effect size covariance. But more generally, we know that the residual matrix $\hat\Sr$ is relatively sparse (as also induced in our tutorial), then the effect-size covariance matrix $\hat\Vv$(simply $\mathbf X ' \mathbf X \times \hat \Sr$, will also be relatively sparse. So the only information we have about shared effects is in the prior which we induce. 
+
+Similarly, I ascertained that the reason we can separate this into the product of the $\hbfesfix$ and $\hbfesmeta$ is because we assume the studies and the corresponding residuals are independent, which is effectively our situation if I assume the above correctly. Thus we are no longer interested in the multivariate distribution of effects across tissues, i.e., the vector $\mathbf \beta$, but rather the product of the univariate effects, correct? I think this is the assumption we make by setting $\omega ^{2}$ to 0 in v1. \emph { So are we making inference on a multivariate $\beta$ in the BF or the product of many univariate (as in AoAS)} 
+
 
 \item \emph{Most importantly, we assume that, given a type, the activity of an eQTL in tissue $r$ is independent from its activity in other tissues}
+
 
 \item However, does this still allow us to exploit the shared effect among tissues? For example, in the $\textbf{Likeilhood of the Whole Data Set pdf}$, equation (5) and (6) show that the prior covariance matrix is indexed by configurations.
 \end{itemize}
@@ -136,6 +151,8 @@ The skeleton $\Gamma_{gp}$ has $\bm{\gamma}_{gp}$ on the diagonal. Each off-diag
 \begin{itemize}
 
 \item Doesn't saying that given a type, the activity of an eQTL in tissue is independent from its activity in other tissues directly negate the covariance in effects?
+
+\textbf {No - the phrase refers to the fact that given a type, the binary indicator $\gamma_{r}$ is independent of the other tissues, but the effects are still correlated conditional on $\gamma_{r}$ (per William) with covariance matrix $\mathbf W$. We integrate over all $\mathbf \gamma$ below.}
 
 \item In the config model, given a configuration $\gav$, 
 
@@ -157,9 +174,9 @@ U_k =
 \end{pmatrix}
 \]
 
-Since the fact that there are non-zero entries on the diagonal means that the convariance is non-zero and beta is a multivariate normal, doesn't b|q mean that the effects are $\emph{ not independent conditional on type}$? So are we always left with the BF conditional on q, or do we ever integrate out q?
+%Since the fact that there are non-zero entries on the diagonal means that the convariance is non-zero and beta is a multivariate normal, doesn't b|q mean that the effects are $\emph{ not independent conditional on type}$? So are we always left with the BF conditional on q, or do we ever integrate out q?
 
-I see in solution 2, we are effectively doing as in the supplement of the AOAS paper (i.e., equation A.6)
+%I see in solution 2, we are effectively doing as in the supplement of the AOAS paper (i.e., equation A.6)
 
 
 
@@ -202,8 +219,10 @@ As a result, this bypasses the need for the $J$-dimensional vectors $\cv_{gp}$ w
 \item  Furthermore, the $R \times K$ matrix $\Gamma_{gp}$ represents the tissue-specific patterns of expression for each class across tissues, such that the column sums will represent the number of tissues a SNP of type 'k' might be active and the rows reprsent the total number of types from which a tissue derives activity. 
 
 \item However, since the matrix  $\Gamma_{gp}$ is the same for all SNPs of a particular type, why is it necessary to stack the  $\Gamma_{gp}$ into  $\Gav_g?
-
 \end{itemize}
+
+\textbf{Answer
+ The answer is that even if two SNPs are of the same type, suppose that the q vector for a particular type is [0.10 0.95 0.05 0.95 0.95]. One SNP could be [1 1 0 1 1] and one SNP could be [0 1 0 1 1] (although the second case is more likely)}
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
