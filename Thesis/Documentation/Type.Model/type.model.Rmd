@@ -87,7 +87,7 @@ qmat=matrix(NA,nrow=K,ncol=S)
 ```
 For example, for a SNP in type 1, the probability of being active in tissue 1 given it is the eQTL for the gene is 0.40, but the probability of being active in tissue 4 is close to 1 (0.98). We can see that the type of the SNP broadly dictates correlation patterns of activity between tissues.
 
-Now, similar to my discussion of effect size and variance priors in the earlier tutorial, we simulate the covariance matrix $\mathbf \sigma_{GV}$ of the multivariate-normally-distributed vector $\mathbf beta_{s}$ according to the tissue-specific and tissue-average variance $\phi^{2}$ and $\omega^{2}$. We will draw the vector $\mathbf beta_{s}$ given a SNP's activity according the multivariate normal(0,$\mathbf \sigma_{GV}$) with the same covariance matrix for each gene. Similarly, for each gene, we simulate the covariance matrix of the errors between subgroup-expression levels as the *N* x *S* identity matrix *I*, assuming that the errors between tissues are uncorrelated.
+Now, similar to my discussion of effect size and variance priors in the earlier tutorial, we simulate the covariance matrix $\mathbf \sigma_{GV}$ of the multivariate-normally-distributed vector $\mathbf \beta_{s}$ according to the tissue-specific and tissue-average variance $\phi^{2}$ and $\omega^{2}$. We will draw the vector $\mathbf \beta_{s}$ given a SNP's activity according the multivariate normal(0,$\mathbf \sigma_{GV}$) with the same covariance matrix for each gene. Similarly, for each gene, we simulate the covariance matrix of the errors between subgroup-expression levels as the *N* x *S* identity matrix *I*, assuming that the errors between tissues are uncorrelated.
 
 ```{r}
 ####Simulate covariance matrix of effect sizes, same for each gene##
@@ -114,7 +114,7 @@ B.c <- matrix(mvrnorm(n=2, mu=rep(0, S),
                       Sigma=Sigma.beta.c),
               nrow=2, ncol=S)
 ```
-Now, for every gene, we first ask whether it is an 'eGene' - that is, is it affected by an eQTL. This is determined according to $\pi_{0}$, the proportion of null genes. Then, conditional on its differential expression, we will choose 1 'true eQTN', assuming 1 eQTN per gene, from set of all SNPS in *cis*, here defined as within 50 base pairs of the TSS. Given this SNPs type membership, we then generate a tissue-wide vecotr $\gamma$ dictating the behavior of this gene according to genotype at its eQTN from the type-specific probability vector $\q_{k}$.
+Now, for every gene, we first ask whether it is an 'eGene' - that is, is it affected by an eQTL. This is determined according to $\pi_{0}$, the proportion of null genes. Then, conditional on its differential expression, we will choose 1 'true eQTN', assuming 1 eQTN per gene, from set of all SNPS in *cis*, here defined as within 50 base pairs of the TSS. Given this SNPs type membership, we then generate a tissue-wide vector $\gamma$ dictating the behavior of this gene according to genotype at its eQTN from the type-specific probability vector $\q_{k}$.
 
 ```{r}
 set.seed(500)
@@ -124,14 +124,14 @@ var.exp=matrix(NA,nrow=nb.genes,ncol=S)
 cov.eQTL=matrix(NA,nrow=nb.genes,ncol=S)
 truth=NULL
 
-configurations=matrix(NA,nrow=nb.genes,ncol=S)
+gamma_gp=matrix(NA,nrow=nb.genes,ncol=S)
 gene.type=NULL
 for(i in 1:nb.genes){
   if(runif(1)<pi0){
     X=X.c
     B=B.c
   truth[i]=0
-  configurations[i,] = rep(0,S)
+ gamma_gp[i,] = rep(0,S)
   eqtn=0
   gene.type[i]=0
   }
@@ -142,16 +142,16 @@ else{
   cis=snps[start:end]##Specify the cis region
   eqtn=sample(cis,1)##sample the SNP from the chosen region, given that it contains an eQTN
   truth[i]=eqtn
-  class=type[eqtn]##membership of the ith SNP
+ class=type[eqtn]##membership of the ith SNP
   gene.type[i]=class
   ##generate active tissues according to SNPs type membership#
   probs=q.mat[class,]
   config=sapply(probs,function(x){
   rbinom(1,1,prob=x)})
-    configurations[i,] = config
+    gamma_gp[i,] = config
     X.g <- matrix(n.geno[,eqtn], ncol=1)
     B.g <- matrix(mvrnorm(n=1, mu=rep(0, S),Sigma=Sigma.beta.g),nrow=1, ncol=S)
-    B.g[1, which(config == 0)] <- 0
+    B.g[1, which(config == 0)] <- 0 ###Thus the vector of effect sizes is drawn conditional on configuration, so we replace 
     E <- mvrnorm(n=n.inds, mu=rep(0,S),Sigma=cov.err.S)##draw each individuals ERROR vector from E_S(0,I)
     X <- cbind(X.c, X.g)
     B <- rbind(B.c, B.g)
@@ -226,7 +226,7 @@ mean.by.geno=matrix(NA,nrow=nb.genes,ncol=3*S)
 
 truth=NULL
 
-configurations=matrix(NA,nrow=nb.genes,ncol=S)
+gamma_gp=matrix(NA,nrow=nb.genes,ncol=S)
 gene.type=NULL
 for(i in 1:nb.genes){
   if(runif(1)<pi0){
@@ -235,7 +235,7 @@ for(i in 1:nb.genes){
   truth[i]=0
   eqtn=sample(snps,1)##choose any random snp but record that the snp wasn't a true eqtn
   gene.type[i]=0
-  configurations[i,] = rep(0,S)
+  gamma_gp[i,] = rep(0,S)
   }
 else{
   
@@ -250,7 +250,7 @@ else{
   probs=q.mat[class,]
   config=sapply(probs,function(x){
   rbinom(1,1,prob=x)})
-    configurations[i,] = config
+    gamma_gp[i,] = config
     X.g <- matrix(n.geno[,eqtn], ncol=1)
     B.g <- matrix(mvrnorm(n=1, mu=rep(0, S),Sigma=Sigma.beta.g),nrow=1, ncol=S)
     B.g[1, which(config == 0)] <- 0
@@ -295,7 +295,7 @@ ones=sum(gene.type==1)
   twos=sum(gene.type==2)
   threes=sum(gene.type==3)
 
-freq.mat=apply(configurations,2,function(x){
+freq.mat=apply(gamma_gp,2,function(x){
   ones=sum(gene.type==1)
   twos=sum(gene.type==2)
   threes=sum(gene.type==3)
@@ -344,3 +344,5 @@ plot.eQTL(freq.mat,pis,title="eQTL")
 
 This might be considered analogous to the framework of *Structure (Pritchard and Stephens)*, where we can think about the SNPs as the individuals belonging to an (unknown) number of subpopulations, here types. Accordingly, within a population, each individual exhibits a vector of alles at each locus drawn accoridng to the population-specific allele frequencies, with the probabilitiy of a given vector simply the product of the population-specific frequencies. Here, within a type, the 'SNPs' exhibit independent assignment of effect on gene-expression at each tissue, such that the probability of a given vector of activity $\gamma$ is the product of the type-specific probability at teach subgroup (or tissue).
 
+###
+Solving the Model
