@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  15 SEP 2014 15:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  17 SEP 2014 13:56
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -348,53 +348,59 @@ File: b_bar.pdf Graphic file (type pdf)
  <use b_bar.pdf>
 Package pdftex.def Info: b_bar.pdf used on input line 127.
 (pdftex.def)             Requested size: 415.93546pt x 216.96207pt.
- [1
-
-{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./b_bar
-.pdf>] [2]
-
-./typemodelqs.tex:222: LaTeX Error: Command \end{itemize} invalid in math mode.
 
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.222 \end{itemize}
-                   
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
+Missing character: There is no Ò in font cmti10!
+Missing character: There is no Ó in font cmti10!
+[1
 
-./typemodelqs.tex:222: LaTeX Error: Something's wrong--perhaps a missing \item.
+{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2 <./b_bar.pdf>] [3]
+
+./typemodelqs.tex:247: LaTeX Error: Command \end{itemize} invalid in math mode.
 
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.222 \end{itemize}
+l.247 \end{itemize}
                    
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-./typemodelqs.tex:222: LaTeX Error: Something's wrong--perhaps a missing \item.
+./typemodelqs.tex:247: LaTeX Error: Something's wrong--perhaps a missing \item.
 
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.222 \end{itemize}
+l.247 \end{itemize}
                    
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./typemodelqs.tex:222: Missing $ inserted.
+
+./typemodelqs.tex:247: LaTeX Error: Something's wrong--perhaps a missing \item.
+
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.247 \end{itemize}
+                   
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+./typemodelqs.tex:247: Missing $ inserted.
 <inserted text> 
                 $
-l.222 \end{itemize}
+l.247 \end{itemize}
                    
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -402,24 +408,24 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 830.
-[3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 830.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 855.
+[4]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 855.
  (./typemodelqs.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 830.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 830.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 855.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 855.
 Package rerunfilecheck Info: File `typemodelqs.out' has not changed.
 (rerunfilecheck)             Checksum: AE9802D5AA5E3A4BF3A897B566200DCA;88.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 830.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 855.
  ) 
 Here is how much of TeX's memory you used:
- 6194 strings out of 493117
- 88336 string characters out of 6135433
- 177465 words of memory out of 5000000
- 9561 multiletter control sequences out of 15000+600000
+ 6197 strings out of 493117
+ 88363 string characters out of 6135433
+ 177501 words of memory out of 5000000
+ 9562 multiletter control sequences out of 15000+600000
  17665 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,9n,28p,690b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,11n,28p,884b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -427,18 +433,20 @@ Here is how much of TeX's memory you used:
 usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
 r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
 local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/
-texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/tex
-live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texl
-ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
-ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive
-/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on typemodelqs.pdf (3 pages, 231038 bytes).
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></
+usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/te
+xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/tex
+live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
+ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texliv
+e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on typemodelqs.pdf (4 pages, 258559 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 94 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
+ 136 PDF objects out of 1000 (max. 8388607)
+ 104 compressed objects within 2 object streams
+ 15 named destinations out of 1000 (max. 500000)
  22 words of extra memory for PDF output out of 10000 (max. 10000000)
 

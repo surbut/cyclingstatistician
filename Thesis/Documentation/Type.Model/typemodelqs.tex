@@ -122,14 +122,37 @@ This document describes the ``type'' model, an extension of the ``config'' model
 \begin{itemize}
 \item Pending question from last time: Where does the MLE of the covariance in effects come from with summary stats of different tissues? (i.e., in our Config model document, the off-dagonal elements of $\hat V_{gp}$) See SS.ex in the posterior.effect.size simulation?
 
-\item{\textbf{Answer (per William)}} This is indeed an issue. In the metanlysis case, this is actually always the case because we have no information about the covariance in standard errors of effect sizes from the data. However, the use of a prior which assumes some cross-tissue covariance (i.e., $\omega$ is non-zero) captures some of the `` true '' underlying tissue covariance. From the AoAS paper below:
+\item{\textbf{Answer (per William)}} This is indeed an issue. In the meta-anlysis case, this is actually always the case because we have no information about the covariance in standard errors of effect sizes from the data. However, the use of a prior which assumes some cross-tissue covariance (i.e., $\omega$ is non-zero) captures some of the `` true '' underlying tissue covariance. From the AoAS paper below:
 \begin{figure}[h]
 \includegraphics[scale=0.85]{b_bar.pdf}
 \end{figure}
 
 Note that the standard error of the fixed effect, $\zeta$, is really just the sum of the individual study-specific standard error  of the effects and each tissue-specific prior covariance term. Obviously, if the data is acquired from multiple outside studies, we would have no information about the effect size covariance. But more generally, we know that the residual matrix $\hat\Sr$ is relatively sparse (as also induced in our tutorial), then the effect-size covariance matrix $\hat\Vv$(simply $\mathbf X ' \mathbf X \times \hat \Sr$, will also be relatively sparse. So the only information we have about shared effects is in the prior which we induce. 
 
-Similarly, I ascertained that the reason we can separate this into the product of the $\hbfesfix$ and $\hbfesmeta$ is because we assume the studies and the corresponding residuals are independent, which is effectively our situation if I assume the above correctly. Thus we are no longer interested in the multivariate distribution of effects across tissues, i.e., the vector $\mathbf \beta$, but rather the product of the univariate effects, correct? I think this is the assumption we make by setting $\omega ^{2}$ to 0 in v1. \emph { So are we making inference on a multivariate $\beta$ in the BF or the product of many univariate (as in AoAS)} 
+Similarly, I ascertained that the reason we can separate this into the product of the $\hbfesfix$ and $\hbfesmeta$ is because we assume the studies and the corresponding residuals are independent, which is effectively our situation if I assume the above correctly. Thus we are no longer interested in the multivariate distribution of effects across tissues, i.e., the vector $\mathbf \beta$, but rather the product of the univariate effects, correct? I think this is the assumption we make by setting $\omega^{2}$ to 0 in v1. \emph{So are we making inference on a multivariate $\beta$ in the BF or the product of many univariate (as in AoAS)} Matthew wrote that:
+
+\item \emph {By modeling the sharing of active eQTLs among tissues, this framework increases power to detect eQTLs that are present in more than one tissue compared with “tissue-by-tissue” analyses that examine each tissue separately" - the type model (without correlations) is still modelllng the *sharing* of eQTLs among tissues (i.e presence/absence of eQTLs among tissues). It just isn't modeling the similarity of the effects.}
+
+
+So then the advantage of the analysis is that if we Consider the ABF for a model in which we have information on 5 tissues, and the sample size for one tissue is smaller, the evidence that a SNP is active in the smaller-sample size tissue will be augmented by the additional information from the more-easily ascertained tissue, analogous to the configuration model. The difference is that we ignore the sharing of effect, and so it is not necessary to pull the integrals back together (as in AoAS paper equation A.6, and see my 'Understanding the Config Model.pdf'). \textbf{This also assumes that not only the tissues but the effect sizes are independent among tissues, because we use $\hat \beta_{r}$ as a summary for $\textbf{Y}$ and thus if the gene expression readings for each element of  $\textbf{Y}$  are i.i.d., so are the $\hat \beta_{r}$?}
+
+\item {\emph Note that the first version of the ``type'' model (currently implemented in the eQtlBma package) drastically simplifies this sum by only considering the consistent configuration.}
+
+So is this analogous to assuming that in:
+
+\begin{equation}
+  \label{bf_gpkl}
+  \begin{aligned}
+    \BF_{gpkl}(\bm{q}_k,\omega_l,\phi_l) &= \frac{p(Y_g | \Xv_{gp}, t_{gpk}=1, d_{gpl}=1)}{p(Y_g | \Xv_{gp}, z_g=0)} \\
+    &= \frac{\int p(Y_g | \Xv_{gp}, \bm{\mu}, \bm{b}, \Sigma) \; p(\bm{\mu},\Sigma) \; p(\bm{b} | \bm{q}_k, \omega_l, \phi_l) \; \der \bm{b} \; \der \bm{\mu} \; \der \Sigma}{\int p(Y_g | \Xv_{gp}, \bm{\mu}, \bm{b}=\bm{0}, \Sigma) \; p(\bm{\mu},\Sigma) \; \der \bm{\mu} \; \der \Sigma}
+  \end{aligned}
+\end{equation}
+
+both $\Sigma$ (the covariance in residuals errors) and the the corresponding $\mathbf X ' \mathbf X \times \hat \Sr$ (i.e., the true covariance in effects) are diagonal and non-singular (i.e., every diagonal entry complete) matrices, allowing us to factor the BF and use study-specific error approximations? Note that we write: 
+
+\emph {In the scale-invariance formulation, we have $\bm{b} = diag(\Sigma)^{-\frac{1}{2}} \bm{\beta}$, so that $\bm{b}|\bm{q}_k \sim \Norm_R(\bm{0}, U_k)$ induces the prior $\bm{\beta}|\bm{q}_k \sim \Norm_R(\bm{0}, W_k)$ where $W_k = diag(\Sigma)^{-\frac{1}{2}} U_k diag(\Sigma)^{-\frac{1}{2}}$.}
+
+\textbf {thus cementing my questions that if we assume the residuals between tissues are independent, so are the effect-sizes!} From page 5: \emph{note that we also have to assume that the errors are independent between tissues}): I notice that different from the AoAS paper, we integrate over one $\tau$ rather than a $\tau$ specific for each tissue - but where do we get the information in the likelihood to reinforce the covariance in effects (i.e., $\delta^2 = \frac{1}{\bm{g}^T \bm{g} - N \bar{g}^2}$)
 
 
 \item \emph{Most importantly, we assume that, given a type, the activity of an eQTL in tissue $r$ is independent from its activity in other tissues}
@@ -154,13 +177,15 @@ The skeleton $\Gamma_{gp}$ has $\bm{\gamma}_{gp}$ on the diagonal. Each off-diag
 
 \textbf {No - the phrase refers to the fact that given a type, the binary indicator $\gamma_{r}$ is independent of the other tissues, but the effects are still correlated conditional on $\gamma_{r}$ (per William) with covariance matrix $\mathbf W$. We integrate over all $\mathbf \gamma$ below.}
 
-\item In the config model, given a configuration $\gav$, 
-
+\item In the config model, given a configuration $\gav$, where we use an unknown mean $\bar{b}_{gp}$ to borrow information across tissues in which the eQTL is active. 
 \begin{equation}
   b_{gpr} | \gamma_{gpr}, \bar{b}_{gp}, \phi \sim \gamma_{gpr} \Norm(\bar{b}_{gp}, \phi^2) + (1 - \gamma_{gpr}) \delta_0
 \end{equation}
 
 \end{itemize}
+
+\textbf{By setting $\omega^{2}$ = 0, aren't we effectively curtailing our ability to "borrow information across tissues in which the eQTL is active"?}
+
 
 But here, according to Solution (1) of the document, 
 
