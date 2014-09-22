@@ -51,7 +51,7 @@ gender=rbinom(n.inds,1,prob=0.5)
 ```
 Furthermore we generate the vector of Minor Allele Frequencies (MAF) according to the Beta(1,1) distribution. We simulate genotype for each SNP according to this vector from the Binomial distribution.
 
-```{r}
+```{r define genotypes}
 set.seed(707)
 MAF=rbeta(nb.snps,1,1)
 ###Simulate genotypes in an n x v snps matrix such that each row corresponds to an individuals genotype vector##
@@ -66,7 +66,7 @@ set.seed(771)
 ```
 Thus, about 38%, 26% and 36% of our SNPs are members of 'type' 1,2 or 3 respectively, which will drive their tissue specific expression patterns. 
 
-```{r}
+```{r simulate type membership}
 set.seed(302)
 ###simulate type identity according to pi proportion##
 type=sapply(rep(0,nb.snps),function(x){
@@ -107,7 +107,7 @@ We also need to specify our matrix of covariates, using an inverse $\gamma$ prio
 
 ```{r}
 set.seed(717)
-###Create covariate matrix, using inverse gamma prior on variance ###
+####Create covariate matrix, using inverse gamma prior on variance ###
 Sigma.beta.c <- diag(x=1 / rgamma(S, 2, 1),
                      nrow=S, ncol=S)
 X.c <- cbind(rep(1, n.inds),gender)#use gender as a covariate
@@ -119,6 +119,9 @@ B.c <- matrix(mvrnorm(n=2, mu=rep(0, S),
 Now, for every gene, we first ask whether it is an 'eGene' - that is, is it affected by an eQTL. This is determined according to $\pi_{0}$, the proportion of null genes. Then, conditional on its differential expression, we will choose 1 'true eQTN', assuming 1 eQTN per gene, from set of all SNPS in *cis*, here defined as within 50 base pairs of the TSS. Given this SNPs type membership, we then generate a tissue-wide vector $\gamma$ dictating the behavior of this gene according to genotype at its eQTN from the type-specific probability vector $\q_{k}$.
 
 ```{r}
+
+
+#simulate.gene.exp=function(nb.genes,Sigma.beta.g){
 set.seed(500)
 ####Initialize DataFrames###
 mean.exp=matrix(NA,nrow=nb.genes,ncol=S)
@@ -167,14 +170,16 @@ else{
 mean.exp[i,]=apply(Y,2,mean)
 var.exp[i,]=apply(Y,2,var)
 if(eqtn==0){beta.hat[i,]=rep(0,S)}
-else{beta.hat[i,]=apply(Y,2,function(x){cov(x,n.geno[,eqtn])/var(n.geno[,eqtn])})}
+else{beta.hat[i,]=apply(Y,2,function(x){cov(x,n.geno[,eqtn])/var(n.geno[,eqtn])})}}
 beta.hat<- replace(beta.hat, is.na(beta.hat), 0)
-}
+#return(list=c(beta.hat=beta.hat,Y=Y))}
+
+
   
 ```
 Note that we have the capacity to create, for every gene, an *N* by *S* matrix of expression levels across tissues for all individuals. We can then take the mean expression level for each gene across individuals for each tissue type, and record this in an *S* dimensional vector. Accordingly, we will have $M$ of these.
 
-For each tissue, we can then look at boxplots of the maximum likelihood estimate of effect size by gene type. We can compare these to the vector of configuration probabilities across types for a given tissue, i.e., *q[1:K,S]*. This plot criticially revelas the relationship that q captures information not only about the consistency of configurations but also about the effect size. In tissues with large Q, for example more gene SNP pairs will have $\gamma_{gp}=1$ and thus a non-zero effect size, meaning that for all gene-SNP pairs of the type, the average effect size across all SNP will be correspondinglylarger because there will be less $\beta=0$ cases to dilute the effect. The expectation that for genes in a type in which the type-specific tissue probabilities $q_{k,s}$ is higher, there will be a greater variance in gene expression among the disase because the probability that $\gamma_{s}$ is 1 (and thus the eQTN is active given the gene contains an eQTN) is high. I plot this probability of tissue-specific activity above the type membership identifier.
+For each tissue, we can then look at boxplots of the maximum likelihood estimate of effect size by gene type. We can compare these to the vector of configuration probabilities across types for a given tissue, i.e., *q[1:K,S]*. This plot criticially reveals the relationship that $q$ captures information not only about the consistency of configurations but also about the effect size. In tissues with large $q_{ks}$, for example, more gene SNP pairs will have $\gamma_{gp}=1$ and thus a non-zero effect size, meaning that for all gene-SNP pairs of the type, the average effect size across all SNP will be correspondingly larger because there will be less $\beta=0$ cases to dilute the effect. The expectation that for genes in a type in which the type-specific tissue probabilities $q_{k,s}$ - is higher, there will be a greater variance in gene expression among the disase because the probability that $\gamma_{s}$ is 1 (and thus the eQTN is active given the gene contains an eQTN) is high. I plot this probability of tissue-specific activity above the type membership identifier.
 ```{r}
 ##########################
 ###order mean expression by gene.type###
@@ -200,21 +205,26 @@ plot.type(beta.hat,gene.type,tissue.types=c(5,6))
 plot.type(beta.hat,gene.type,tissue.types=c(7,8))
 plot.type(beta.hat,gene.type,tissue.types=c(9,10))
 
+```
+Now, we can consider across all gene-SNP pairs.
+
+```{r}
 #install.packages("calibrate")
 library(calibrate)
 
-par(mfrow=c(2,5))
-for(i in 1:S){
+#par(mfrow=c(1,3))
+for(i in 3:3){
 X=seq(1:K)
 Y=sapply(seq(1:K),function(x){mean(abs(beta.hat[gene.type==x,i]))})
-plot(X, Y,pch=1,col=2:4,type="p",ylim=c(0,0.5),xlim=c(0,3.5),cex=0.5,main="mean(abs(cov(gene.exp,geno)))",xlab="type",ylab="mean(abs(cov(gexp,geno)))")
+barplot(Y,col=2:4,main=paste(c("MeanBhat,Tissue"),i),xlab=paste0("type",i),ylab="mean(beta.hat)")
 library("calibrate")
-textxy(X, Y, labs=round(q.mat[,i],2),cex=0.5,offset=.1)
-       }
+textxy(X, Y, labs=round(q.mat[,i],2),cex=1,offset=.1)
+}
 
 ```
 
-Neatly, let's consider tissue 3 for example. We can see that the covvariance in gene expression with genotype for genes whose eQTN are members of type 1 have a $q_{1,3}$ of 0.62. We would expect the majority of eQTNs from this type to exhibit active influence on gene expression in this tissue type. Correspondingly, we see that the covariance between gene expression and genotype is much higher for genes containing eQTN of this type than of genes containing eQTNs of type 2, for example. In type 2, the probability of being active in this particular tissue type given membership in type 2 is 0.03, and thus, the absolute value of the covariance between gene epxression and genotype is low.
+Neatly, let's consider tissue 3 for example. We can see that the covvariance in gene expression with genotype for genes whose eQTN are members of type 1 have a $q_{1,3}$ of 0.62. We would expect the majority of eQTNs from this type to exhibit active influence on gene expression in this tissue type. Correspondingly, we see that the MLE of genotype on gene expression is much higher for genes containing eQTN of this type than of genes containing eQTNs of type 2, for example. In type 2, the probability of being active in this particular tissue type given membership in type 2 is 0.03, and thus, the absolute value of the effect of genotype on gene expression.
+
 
 **Applying CorMOTIF**
 
@@ -347,11 +357,116 @@ plot.eQTL(freq.mat,pis,title="eQTL")
 
 This might be considered analogous to the framework of *Structure (Pritchard and Stephens)*, where we can think about the SNPs as the individuals belonging to an (unknown) number of subpopulations, here types. Accordingly, within a population, each individual exhibits a vector of alles at each locus drawn accoridng to the population-specific allele frequencies, with the probabilitiy of a given vector simply the product of the population-specific frequencies. Here, within a type, the 'SNPs' exhibit independent assignment of effect on gene-expression at each tissue, such that the probability of a given vector of activity $\gamma$ is the product of the type-specific probability at teach subgroup (or tissue).
 
-###
-Solving the Model
+***Inference***
+We might also imaging a situation in which the consistent configuration was more common -i.e., all qs were close to 1 or close to 0. Similarly, the shared effect might be 0 (i.e., $\omega^{2}$ is close to zero or might be very high (i.e., for all tissues with $\gamma_{gp}$ =1 , the effect sizes are similar.} Let's take a look under t)
 
-```{r compute.mles}
-beta.hat=solve(t(X)%*%X)%*%t((X))%*%(Y)
-RSS=t(Y-X%*%beta.hat)%*%(Y-X%*%beta.hat)
+
+```{r echo=FALSE}
+set.seed(400)
+qmat=matrix(NA,nrow=K,ncol=S)
+(q.mat=t(apply(qmat,1,function(x){
+    a=sample(c(8,2))
+    x=sample(c(rep(0.95,a[1]),rep(0.05,a[2])))
+    })))
+
+oma2.plus.phi2 <- 0.8^2 # prior variance of subgroup SNP effect
+oma2.over.oma2.plus.phi2 <- 0.99 # homogeneity
+oma2 <- oma2.plus.phi2 * oma2.over.oma2.plus.phi2 # prior var of avg SNP effect
+phi2 <- oma2.plus.phi2 * (1 - oma2.over.oma2.plus.phi2) # prior var of subgroup SNP effect, given avg effect
+Sigma.beta.g <- matrix(rep(oma2, S^2),S, S) +
+  diag(rep(phi2, S), S, S)
+
+
+
+####Initialize DataFrames###
+mean.by.geno=matrix(NA,nrow=nb.genes,ncol=3*S)
+
+truth=NULL
+
+gamma_gp=matrix(NA,nrow=nb.genes,ncol=S)
+gene.type=NULL
+for(i in 1:nb.genes){
+  if(runif(1)<pi0){
+    X=X.c
+    B=B.c
+  truth[i]=0
+  eqtn=sample(snps,1)##choose any random snp but record that the snp wasn't a true eqtn
+  gene.type[i]=0
+  gamma_gp[i,] = rep(0,S)
+  }
+else{
+  
+  start=50*(i-1)+1
+  end=start+49
+  cis=snps[start:end]##Specify the cis region
+  eqtn=sample(cis,1)##sample the SNP from the chosen region, given that it contains an eQTN
+  truth[i]=eqtn
+ class=type[eqtn]##membership of the ith SNP
+  gene.type[i]=class
+  ##generate active tissues according to SNPs type membership#
+  probs=q.mat[class,]
+  config=sapply(probs,function(x){
+  rbinom(1,1,prob=x)})
+    gamma_gp[i,] = config
+    X.g <- matrix(n.geno[,eqtn], ncol=1)
+    B.g <- matrix(mvrnorm(n=1, mu=rep(0, S),Sigma=Sigma.beta.g),nrow=1, ncol=S)
+    B.g[1, which(config == 0)] <- 0
+    E <- mvrnorm(n=n.inds, mu=rep(0,S),Sigma=cov.err.S)##draw each individuals ERROR vector from E_S(0,I)
+    X <- cbind(X.c, X.g)
+    B <- rbind(B.c, B.g)
+}
+  Y <- X %*% B + E
+
+mean.exp[i,]=apply(Y,2,mean)
+var.exp[i,]=apply(Y,2,var)
+if(eqtn==0){beta.hat[i,]=rep(0,S)}
+else{beta.hat[i,]=apply(Y,2,function(x){cov(x,n.geno[,eqtn])/var(n.geno[,eqtn])})}}
+beta.hat<- replace(beta.hat, is.na(beta.hat), 0)
+#return(list=c(beta.hat=beta.hat,Y=Y))}
+
+
+plot.type(beta.hat,gene.type,tissue.types=c(1,2))
+plot.type(beta.hat,gene.type,tissue.types=c(3,4))
+plot.type(beta.hat,gene.type,tissue.types=c(5,6))
+plot.type(beta.hat,gene.type,tissue.types=c(7,8))
+plot.type(beta.hat,gene.type,tissue.types=c(9,10))
+
+library(calibrate)
+
+par(mfrow=c(2,2))
+for(i in 1:2){
+X=seq(1:K)
+Y=sapply(seq(1:K),function(x){mean(abs(beta.hat[gene.type==x,i]))})
+barplot(Y,col=2:4,main=paste(c("MeanBhat,Tissue"),i),xlab=paste0("type",i),ylab="mean(beta.hat)")
+library("calibrate")
+textxy(X, Y, labs=round(q.mat[,i],2),cex=1)
+}
+
 ```
+
+Again, we can see that for tissues with a high $q_{k,s}$, the average $\hat\beta$ across gene SNP pairs is correspndingly higher, reflecting the greater proportion of $\gamma_{gp}$ = 1 in this tissue. Similarly, because we have indicated that given a type, the consistent configuration might be more common (i.e., 80% of the tissues in each class are either 0.95 or 0.05). 
+
+```{r}
+beta.hat.by.type=matrix(NA,nrow=K,ncol=S)
+for(i in 1:K){
+  for(j in 1:S){
+    beta.hat.by.type[i,j]=mean(abs(beta.hat[gene.type==i,j]))
+  }}
+
+par(mfrow=(c(3,1)))
+for(i in 1:K){barplot(beta.hat.by.type[i,],main="MeanBetaHatAcrossTissuesbyType",col=c(1:S))}
+(q.mat)
+```
+
+We can see that because we have specified a high degree of homogeneity, i.e., $\omega^{2}/(\phi+\omega^{2})$ is 0.99), the average effect of all gene-SNP pairs is very similar across tissues, given a type. Furthermore, note that in type 1 and 2, in which the majority of the $q_{k,s}$ are 0.05, the mean effect is low, while in , in which . It is crucial to remember that $\beta$ is defined conditional on $\gamma$, and thus will have high homogeneity across tissues in which $\gamma$ is equal to 1 which is dictated by $q_{k,s}$. The vector $q_{k,}$ is maximized using the EM algorithm, which will recognize the consistent configuration. 
+
+Recall that:
+$$
+\begin{aligned}
+    BF_{gpkl}(bm{q}_k, \omega_l, \phi_l) &= \frac{\int p(\bar{b}_{gpl}) \; \prod_r p(y_{gr} | X_{gp}, t_{gpk}=1, d_{gpl}=1, \bar{b}_{gpl}) \; \delta \bar{b}_{gpl}}{\prod_r p(y_{gr} | X_{gp}, z_g=0)} \\
+    &= \frac{\int p(\bar{b}_{gpl}) \; \prod_r [ q_{kr} p(y_{gr} | X_{gp}, d_{gpl}=1, \bar{b}_{gpl}, \gamma_{gpr}=1) + (1-q_{kr}) p(y_{gr} | X_{gp}, \gamma_{gpr}=0) ] \; \delta \bar{b}_{gpl}}{\prod_r p(y_{gr} | X_{gp}, z_g=0)} \\
+    &= \int_{-\infty}^{+\infty} f(\bar{b}_{gpl}, bm{q}_k, \omega_l, \phi_l) \; \delta \bar{b}_{gpl}
+  \end{aligned}
+$$
+
 
