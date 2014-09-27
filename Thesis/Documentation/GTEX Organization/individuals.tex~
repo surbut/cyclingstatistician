@@ -1,0 +1,288 @@
+% Created 2014-09-26 Fri 18:29
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{listings}
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{This is a file that describes how to make the matrix:}
+\author{Sarah Urbut}
+\date{\today}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.9.3f}}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+
+
+\lstset{breaklines,language=sh}
+\begin{lstlisting}
+
+cd individuals
+for i in $( ls|grep "expr"); do
+b=`basename $i ".expr.txt"`
+echo $b
+cat $i |head -1 > ./d/$b
+done
+
+for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
+\end{lstlisting}
+
+
+\begin{verbatim}
+Adipose_Subcutaneous_Analysis
+Adipose_Visceral_Omentum_Analysis
+Adrenal_Gland_Analysis
+Artery_Aorta_Analysis
+Artery_Coronary_Analysis
+Artery_Tibial_Analysis
+Brain_Anterior_cingulate_cortex_BA24_Analysis
+Brain_Caudate_basal_ganglia_Analysis
+Brain_Cerebellar_Hemisphere_Analysis
+Brain_Cerebellum_Analysis
+Brain_Cortex_Analysis
+Brain_Frontal_Cortex_BA9_Analysis
+Brain_Hippocampus_Analysis
+Brain_Hypothalamus_Analysis
+Brain_Nucleus_accumbens_basal_ganglia_Analysis
+Brain_Putamen_basal_ganglia_Analysis
+Breast_Mammary_Tissue_Analysis
+Cells_EBV-transformed_lymphocytes_Analysis
+Cells_Transformed_fibroblasts_Analysis
+Colon_Sigmoid_Analysis
+Colon_Transverse_Analysis
+\end{verbatim}
+
+
+
+
+\lstset{breaklines,language=R}
+\begin{lstlisting}
+     setwd("./individuals/d")
+      files=list.files()[-45]
+      tissues=read.table("tissuenames.txt",row.names=NULL)
+            names <- list()
+            for(i in 1:length(files)){
+                names[[i]]=data.frame(read.table(files[i],header=FALSE,sep="\t"))}
+
+    ###To determine length:
+
+       (max.inds <- max(unlist(lapply(names,function(x){ncol(x)}))))
+    (tissue.max=tissues$V1[which.max(unlist(lapply(names,function(x){ncol(x)})))])
+    namevector=t(data.frame(read.table(files[tissue.max],header=FALSE,sep="\t")))
+
+
+
+
+
+    mat=matrix(NA,nrow=length(files),ncol=max.inds)
+
+    for(i in 1:44){
+        r=data.frame(names[[i]])
+        l=ncol(r)
+
+        if(l<=362)
+            {
+            nulls=362-l
+            n=matrix(NA,ncol=nulls,nrow=1)
+            r=as.matrix(cbind(r,n))
+        }
+            mat[i,]=r[1,]
+    }
+
+
+    rownames(mat)=tissues$V1
+
+    ind.rows=t(mat)
+    rownames(ind.rows)=namevector[,1]
+
+
+    matched.mat=matrix(NA,ncol=44,nrow=362)
+    for(i in 1:ncol(ind.rows)){
+       matched.mat[,i]= ind.rows[match(namevector[,1],ind.rows[,i]),i]
+    }
+
+    rownames(matched.mat)=namevector[,1]
+    colnames(matched.mat)=tissues$V1
+
+  boolean.mat=matrix(NA,ncol=44,nrow=362)
+
+    matched.mat[1:10,1:10]
+
+  for(i in 1:nrow(matched.mat)){
+      row=matched.mat[i,]
+  t=sapply(row,function(x){
+  if(is.na(x)){x=0}
+    else if(!is.na(x)){x=1}
+  })
+    boolean.mat[i,]=t
+  }
+
+    rownames(boolean.mat)=namevector[,1]
+    colnames(boolean.mat)=tissues$V1
+boolean.mat[1:10,1:10]
+\end{lstlisting}
+
+
+\begin{verbatim}
+[1] 362
+[1] Muscle_Skeletal_Analysis
+44 Levels: Adipose_Subcutaneous_Analysis ... Whole_Blood_Analysis
+           Adipose_Subcutaneous_Analysis Adipose_Visceral_Omentum_Analysis
+Id         "Id"                          "Id"
+GTEX-1117F NA                            "GTEX-1117F"
+GTEX-111CU "GTEX-111CU"                  "GTEX-111CU"
+GTEX-111FC "GTEX-111FC"                  NA
+GTEX-111VG "GTEX-111VG"                  NA
+GTEX-111YS "GTEX-111YS"                  "GTEX-111YS"
+GTEX-1122O "GTEX-1122O"                  "GTEX-1122O"
+GTEX-1128S "GTEX-1128S"                  "GTEX-1128S"
+GTEX-113JC NA                            "GTEX-113JC"
+GTEX-117XS NA                            NA
+           Adrenal_Gland_Analysis Artery_Aorta_Analysis
+Id         "Id"                   "Id"
+GTEX-1117F NA                     NA
+GTEX-111CU "GTEX-111CU"           NA
+GTEX-111FC NA                     NA
+GTEX-111VG NA                     NA
+GTEX-111YS "GTEX-111YS"           "GTEX-111YS"
+GTEX-1122O "GTEX-1122O"           "GTEX-1122O"
+GTEX-1128S NA                     "GTEX-1128S"
+GTEX-113JC NA                     NA
+GTEX-117XS NA                     "GTEX-117XS"
+           Artery_Coronary_Analysis Artery_Tibial_Analysis
+Id         "Id"                     "Id"
+GTEX-1117F "GTEX-1117F"             NA
+GTEX-111CU NA                       NA
+GTEX-111FC NA                       "GTEX-111FC"
+GTEX-111VG NA                       NA
+GTEX-111YS NA                       "GTEX-111YS"
+GTEX-1122O "GTEX-1122O"             NA
+GTEX-1128S NA                       "GTEX-1128S"
+GTEX-113JC NA                       NA
+GTEX-117XS NA                       NA
+           Brain_Anterior_cingulate_cortex_BA24_Analysis
+Id         "Id"
+GTEX-1117F NA
+GTEX-111CU NA
+GTEX-111FC NA
+GTEX-111VG NA
+GTEX-111YS NA
+GTEX-1122O NA
+GTEX-1128S NA
+GTEX-113JC NA
+GTEX-117XS NA
+           Brain_Caudate_basal_ganglia_Analysis
+Id         "Id"
+GTEX-1117F NA
+GTEX-111CU NA
+GTEX-111FC NA
+GTEX-111VG NA
+GTEX-111YS NA
+GTEX-1122O NA
+GTEX-1128S NA
+GTEX-113JC NA
+GTEX-117XS NA
+           Brain_Cerebellar_Hemisphere_Analysis Brain_Cerebellum_Analysis
+Id         "Id"                                 "Id"
+GTEX-1117F NA                                   NA
+GTEX-111CU NA                                   NA
+GTEX-111FC NA                                   "GTEX-111FC"
+GTEX-111VG NA                                   NA
+GTEX-111YS NA                                   NA
+GTEX-1122O NA                                   NA
+GTEX-1128S NA                                   "GTEX-1128S"
+GTEX-113JC NA                                   NA
+GTEX-117XS NA                                   "GTEX-117XS"
+           Adipose_Subcutaneous_Analysis Adipose_Visceral_Omentum_Analysis
+Id                                     1                                 1
+GTEX-1117F                             0                                 1
+GTEX-111CU                             1                                 1
+GTEX-111FC                             1                                 0
+GTEX-111VG                             1                                 0
+GTEX-111YS                             1                                 1
+GTEX-1122O                             1                                 1
+GTEX-1128S                             1                                 1
+GTEX-113JC                             0                                 1
+GTEX-117XS                             0                                 0
+           Adrenal_Gland_Analysis Artery_Aorta_Analysis
+Id                              1                     1
+GTEX-1117F                      0                     0
+GTEX-111CU                      1                     0
+GTEX-111FC                      0                     0
+GTEX-111VG                      0                     0
+GTEX-111YS                      1                     1
+GTEX-1122O                      1                     1
+GTEX-1128S                      0                     1
+GTEX-113JC                      0                     0
+GTEX-117XS                      0                     1
+           Artery_Coronary_Analysis Artery_Tibial_Analysis
+Id                                1                      1
+GTEX-1117F                        1                      0
+GTEX-111CU                        0                      0
+GTEX-111FC                        0                      1
+GTEX-111VG                        0                      0
+GTEX-111YS                        0                      1
+GTEX-1122O                        1                      0
+GTEX-1128S                        0                      1
+GTEX-113JC                        0                      0
+GTEX-117XS                        0                      0
+           Brain_Anterior_cingulate_cortex_BA24_Analysis
+Id                                                     1
+GTEX-1117F                                             0
+GTEX-111CU                                             0
+GTEX-111FC                                             0
+GTEX-111VG                                             0
+GTEX-111YS                                             0
+GTEX-1122O                                             0
+GTEX-1128S                                             0
+GTEX-113JC                                             0
+GTEX-117XS                                             0
+           Brain_Caudate_basal_ganglia_Analysis
+Id                                            1
+GTEX-1117F                                    0
+GTEX-111CU                                    0
+GTEX-111FC                                    0
+GTEX-111VG                                    0
+GTEX-111YS                                    0
+GTEX-1122O                                    0
+GTEX-1128S                                    0
+GTEX-113JC                                    0
+GTEX-117XS                                    0
+           Brain_Cerebellar_Hemisphere_Analysis Brain_Cerebellum_Analysis
+Id                                            1                         1
+GTEX-1117F                                    0                         0
+GTEX-111CU                                    0                         0
+GTEX-111FC                                    0                         1
+GTEX-111VG                                    0                         0
+GTEX-111YS                                    0                         0
+GTEX-1122O                                    0                         0
+GTEX-1128S                                    0                         1
+GTEX-113JC                                    0                         0
+GTEX-117XS                                    0                         1
+\end{verbatim}
+
+
+
+
+\end{document}

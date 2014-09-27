@@ -1,0 +1,116 @@
+#+title: "Tissue  Summary"
+#+author: Sarah Urbut
+
+#+latex_header: \usepackage{parskip}
+#+latex_header: \setlength{\parindent}{0pt}
+#+latex_header: \usepackage{underscore}
+
+* Overview
+This document contains a summary of the information available in the
+GTeX directory. To find the directory, you can create a symlink on
+your own directory. For instance:
+
+#+begin_src bash
+cd ..; ln -s /mnt/gluster/data/external_private_supp/GTEX_6_13/ncbi/38175/gtex/exchange/GTEx_phs000424/exchange/analysis_releases/GTEx_Analysis_2014-06-13
+~/GTex_2014
+cd ~/GTex_2014/helpful_code/GTEx_Analysis_2014-06-13_expression_provisional/
+#+end_src
+
+Inside the above directory, you will find the normalized expression
+values for all 45 tissues with variable numbers of samples and genes respectively per tissue, listed here. For the novice (like me:) you can reproduce these numbers
+yourself using the following useufl lines of code when in the proper directory:
+
+
+#+begin_src bash
+for i in $( ls ); do  echo -n "item $i "; cat $i |awk 'END{print NF}'; done
+#+end_src
+
+
+There are 45 tissues recorded, with the following number of genes and
+individuals per tissue:
+
+#+begin_src sh
+
+Adipose_Subcutaneous_Analysis.expr.txt 299 31028
+Adipose_Visceral_Omentum_Analysis.expr.txt 186 29663
+Adrenal_Gland_Analysis.expr.txt 127 27367
+Artery_Aorta_Analysis.expr.txt 199 28400
+Artery_Coronary_Analysis.expr.txt 120 27507
+Artery_Tibial_Analysis.expr.txt 286 28502
+Brain_Anterior_cingulate_cortex_BA24_Analysis.expr.txt 73 26056
+Brain_Caudate_basal_ganglia_Analysis.expr.txt 101 27897
+Brain_Cerebellar_Hemisphere_Analysis.expr.txt 90 27508
+Brain_Cerebellum_Analysis.expr.txt 104 29129
+Brain_Cortex_Analysis.expr.txt 97 27675
+Brain_Frontal_Cortex_BA9_Analysis.expr.txt 93 27027
+Brain_Hippocampus_Analysis.expr.txt 82 26854
+Brain_Hypothalamus_Analysis.expr.txt 82 27708
+Brain_Nucleus_accumbens_basal_ganglia_Analysis.expr.txt 94 27615
+Brain_Putamen_basal_ganglia_Analysis.expr.txt 83 26311
+Breast_Mammary_Tissue_Analysis.expr.txt 184 31281
+Cells_EBV-transformed_lymphocytes_Analysis.expr.txt 116 24782
+Cells_Transformed_fibroblasts_Analysis.expr.txt 273 26562
+Colon_Sigmoid_Analysis.expr.txt 125 27547
+Colon_Transverse_Analysis.expr.txt 171 30077
+Esophagus_Gastroesophageal_Junction_Analysis.expr.txt 128 27296
+Esophagus_Mucosa_Analysis.expr.txt 243 29487
+Esophagus_Muscularis_Analysis.expr.txt 220 28631
+Heart_Atrial_Appendage_Analysis.expr.txt 160 27493
+Heart_Left_Ventricle_Analysis.expr.txt 191 26352
+Liver_Analysis.expr.txt 99 25083
+Lung_Analysis.expr.txt 280 32848
+Muscle_Skeletal_Analysis.expr.txt 362 27009
+Nerve_Tibial_Analysis.expr.txt 257 32140
+Ovary_Analysis.expr.txt 86 27610
+Pancreas_Analysis.expr.txt 151 27148
+Pituitary_Analysis.expr.txt 88 29869
+Prostate_Analysis.expr.txt 88 29595
+Skin_Not_Sun_Exposed_Suprapubic_Analysis.expr.txt 197 31035
+Skin_Sun_Exposed_Lower_leg_Analysis.expr.txt 304 32512
+Small_Intestine_Terminal_Ileum_Analysis.expr.txt 78 28488
+Spleen_Analysis.expr.txt 90 28108
+Stomach_Analysis.expr.txt 172 29767
+Testis_Analysis.expr.txt 158 41486
+Thyroid_Analysis.expr.txt 280 33081
+Uterus_Analysis.expr.txt 72 26745
+Vagina_Analysis.expr.txt 81 28160
+Whole_Blood_Analysis.expr.txt 340 27129
+#+end_src bash
+
+Furthermore, in the same GTEX subdirectory, you will find the summary of QTLs for all 45 tissues found using the
+MatrixeQTL package.
+
+#+begin_src bash
+cd /mnt/lustre/home/surbut/GTEx_Analysis_2014/eqtls/MatrixeQTL
+#+end_src bash
+
+
+
+
+
+
+
+
+| header1 | header2 |
+|---------+---------|
+| a       |       1 |
+| b       |       2 |
+
+Example of an equation: $y_i \sim \mathcal{N}(\mu, \sigma^2)$
+
+We can read these values into R to get a summary of the tissues.
+
+#+BEGIN_SRC R :session *R* :results output graphics :file first.png :exports both
+    t=read.table("table.txt",header=FALSE,row.names=NULL)
+    labels=t[,1]
+  mp=barplot(t[,2],axes=FALSE,axisnames=FALSE)
+
+  text(mp, par("usr")[3], labels = labels, srt = 45, adj = c(1.1,1.1),xpd=TRUE,cex=.5)
+  axis(2)
+#+END_SRC
+
+Where we see that the mean number of samples is 161 for these 45
+tissues and that there are approximately 28,000 genes assayed per
+tissues type.
+
+

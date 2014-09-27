@@ -1,0 +1,54 @@
+This is a file that describes how to make the matrix:
+
+#+BEGIN_SRC sh
+
+cd individuals
+for i in $( ls|grep "expr"); do
+b=`basename $i ".expr.txt"`
+echo $b
+cat $i |head -1 > ./d/$b
+done
+
+for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
+
+#+end_Src
+
+#+RESULTS:
+| Adipose_Subcutaneous_Analysis                  |
+| Adipose_Visceral_Omentum_Analysis              |
+| Adrenal_Gland_Analysis                         |
+| Artery_Aorta_Analysis                          |
+| Artery_Coronary_Analysis                       |
+| Artery_Tibial_Analysis                         |
+| Brain_Anterior_cingulate_cortex_BA24_Analysis  |
+| Brain_Caudate_basal_ganglia_Analysis           |
+| Brain_Cerebellar_Hemisphere_Analysis           |
+| Brain_Cerebellum_Analysis                      |
+| Brain_Cortex_Analysis                          |
+| Brain_Frontal_Cortex_BA9_Analysis              |
+| Brain_Hippocampus_Analysis                     |
+| Brain_Hypothalamus_Analysis                    |
+| Brain_Nucleus_accumbens_basal_ganglia_Analysis |
+| Brain_Putamen_basal_ganglia_Analysis           |
+| Breast_Mammary_Tissue_Analysis                 |
+| Cells_EBV-transformed_lymphocytes_Analysis     |
+| Cells_Transformed_fibroblasts_Analysis         |
+| Colon_Sigmoid_Analysis                         |
+| Colon_Transverse_Analysis                      |
+
+
+#+BEGIN_SRC R
+
+    setwd("./individuals/d")
+  files=list.files()[-45]
+    names <- list()
+    for(i in 1:length(files)){
+        names[[i]]=data.frame(read.table(files[i],header=FALSE,sep="\t"))}
+  merge(names)
+
+#+END_SRC R
+
+#+RESULTS:
+
+
+
