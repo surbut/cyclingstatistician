@@ -39,9 +39,11 @@ for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
 
 
 
-#+BEGIN_SRC R :results output :exports both
+#+BEGIN_SRC R :file map.pdf :results graphics :exports results
        setwd("./individuals/d")
-        files=list.files()[-45]
+        file=list.files()
+  index=grep("Analysis",list.files())
+  files=file[index]
         tissues=read.table("tissuenames.txt",row.names=NULL)
               names <- list()
               for(i in 1:length(files)){
@@ -102,17 +104,59 @@ for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
 
       rownames(boolean.mat)=namevector[,1]
       colnames(boolean.mat)=tissues$V1
-   boolean.mat=data.frame(boolean.mat)
-  heatmap(boolean.mat)
+   boolean.mat=(as.matrix(data.frame(boolean.mat)))
 
 
+  S=44
+  V=362
 
+  myheatmap <- function(z, out.file="") {
+    def.par <- par(no.readonly=TRUE)
+    par(mar=c(4,5,3,2), font=2, font.axis=2, font.lab=2, cex=1.5, lwd=2)
+    if (out.file != "")
+      pdf(out.file)
+    layout(mat=cbind(1, 2), width=c(7,1))  # plot +  legend
+    mycol <- rev(heat.colors(4))
 
+   image(x=1:NCOL(z), y=1:NROW(z), z=t(z),
+          xlim=0.5+c(0,NCOL(z)), ylim=0.5+c(0,NROW(z)),
+          xlab="Tissues", ylab="Individuals", main="Presence of Tissue Sample",
+          axes=FALSE, col=mycol)
+    axis(1, 1:NCOL(z), labels=1:ncol(z))
+     #text(pl, par("usr")[3], labels =tissues$V1, srt = 45, adj = c(1.1,1.1),xpd=TRUE,cex=.5)
+    axis(2)
+   #text(seq(1, ncol(z), by=10), labels =paste("tissue",1:ncol(z)), srt = 90, pos = 1,xpd=TRUE)
+    #axis(1, 1:NCOL(z), labels=tissues$V1, tick=0)
+    par(mar=c(0,0,0,0))
+    plot.new()
+    legend("center", legend=sprintf("%.2f", seq(from=0, to=1, length.out=5)),
+           fill=mycol, border=mycol, bty="n")
+    if (out.file != "")
+      dev.off()
+    par(def.par)
+   }
+
+  myheatmap(boolean.mat)
 
 
 #+END_SRC R
 
 #+RESULTS:
+[[file:map.pdf]]
+
+Because it is visually unappealing to read all of the tissue names in the x axis, I've included a list of the tissues corresponding to each number.
+
+
+#+begin_SRC R :results output exports: results
+(tissues$V1)
+#+end_src R
+
+
+
+
+
+
+
 
 
 
