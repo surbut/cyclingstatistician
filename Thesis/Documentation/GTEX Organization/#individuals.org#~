@@ -1,0 +1,1 @@
+for i in $( ls ); do  echo -n "item $i"; cat $i |head -1 > ./individuals/$i;done

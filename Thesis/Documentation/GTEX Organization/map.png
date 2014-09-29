@@ -1,0 +1,69 @@
+[1] 362
+[1] Muscle_Skeletal_Analysis
+44 Levels: Adipose_Subcutaneous_Analysis ... Whole_Blood_Analysis
+           Adipose_Subcutaneous_Analysis Adipose_Visceral_Omentum_Analysis
+Id         "Id"                          "Id"                             
+GTEX-1117F NA                            "GTEX-1117F"                     
+GTEX-111CU "GTEX-111CU"                  "GTEX-111CU"                     
+GTEX-111FC "GTEX-111FC"                  NA                               
+GTEX-111VG "GTEX-111VG"                  NA                               
+GTEX-111YS "GTEX-111YS"                  "GTEX-111YS"                     
+GTEX-1122O "GTEX-1122O"                  "GTEX-1122O"                     
+GTEX-1128S "GTEX-1128S"                  "GTEX-1128S"                     
+GTEX-113JC NA                            "GTEX-113JC"                     
+GTEX-117XS NA                            NA                               
+           Adrenal_Gland_Analysis Artery_Aorta_Analysis
+Id         "Id"                   "Id"                 
+GTEX-1117F NA                     NA                   
+GTEX-111CU "GTEX-111CU"           NA                   
+GTEX-111FC NA                     NA                   
+GTEX-111VG NA                     NA                   
+GTEX-111YS "GTEX-111YS"           "GTEX-111YS"         
+GTEX-1122O "GTEX-1122O"           "GTEX-1122O"         
+GTEX-1128S NA                     "GTEX-1128S"         
+GTEX-113JC NA                     NA                   
+GTEX-117XS NA                     "GTEX-117XS"         
+           Artery_Coronary_Analysis Artery_Tibial_Analysis
+Id         "Id"                     "Id"                  
+GTEX-1117F "GTEX-1117F"             NA                    
+GTEX-111CU NA                       NA                    
+GTEX-111FC NA                       "GTEX-111FC"          
+GTEX-111VG NA                       NA                    
+GTEX-111YS NA                       "GTEX-111YS"          
+GTEX-1122O "GTEX-1122O"             NA                    
+GTEX-1128S NA                       "GTEX-1128S"          
+GTEX-113JC NA                       NA                    
+GTEX-117XS NA                       NA                    
+           Brain_Anterior_cingulate_cortex_BA24_Analysis
+Id         "Id"                                         
+GTEX-1117F NA                                           
+GTEX-111CU NA                                           
+GTEX-111FC NA                                           
+GTEX-111VG NA                                           
+GTEX-111YS NA                                           
+GTEX-1122O NA                                           
+GTEX-1128S NA                                           
+GTEX-113JC NA                                           
+GTEX-117XS NA                                           
+           Brain_Caudate_basal_ganglia_Analysis
+Id         "Id"                                
+GTEX-1117F NA                                  
+GTEX-111CU NA                                  
+GTEX-111FC NA                                  
+GTEX-111VG NA                                  
+GTEX-111YS NA                                  
+GTEX-1122O NA                                  
+GTEX-1128S NA                                  
+GTEX-113JC NA                                  
+GTEX-117XS NA                                  
+           Brain_Cerebellar_Hemisphere_Analysis Brain_Cerebellum_Analysis
+Id         "Id"                                 "Id"                     
+GTEX-1117F NA                                   NA                       
+GTEX-111CU NA                                   NA                       
+GTEX-111FC NA                                   "GTEX-111FC"             
+GTEX-111VG NA                                   NA                       
+GTEX-111YS NA                                   NA                       
+GTEX-1122O NA                                   NA                       
+GTEX-1128S NA                                   "GTEX-1128S"             
+GTEX-113JC NA                                   NA                       
+GTEX-117XS NA                                   "GTEX-117XS"             
