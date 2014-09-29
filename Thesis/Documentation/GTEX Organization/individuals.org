@@ -15,27 +15,30 @@ for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
 #+end_Src
 
 #+RESULTS:
-| Adipose_Subcutaneous_Analysis                  |
-| Adipose_Visceral_Omentum_Analysis              |
-| Adrenal_Gland_Analysis                         |
-| Artery_Aorta_Analysis                          |
-| Artery_Coronary_Analysis                       |
-| Artery_Tibial_Analysis                         |
-| Brain_Anterior_cingulate_cortex_BA24_Analysis  |
-| Brain_Caudate_basal_ganglia_Analysis           |
-| Brain_Cerebellar_Hemisphere_Analysis           |
-| Brain_Cerebellum_Analysis                      |
-| Brain_Cortex_Analysis                          |
-| Brain_Frontal_Cortex_BA9_Analysis              |
-| Brain_Hippocampus_Analysis                     |
-| Brain_Hypothalamus_Analysis                    |
-| Brain_Nucleus_accumbens_basal_ganglia_Analysis |
-| Brain_Putamen_basal_ganglia_Analysis           |
-| Breast_Mammary_Tissue_Analysis                 |
-| Cells_EBV-transformed_lymphocytes_Analysis     |
-| Cells_Transformed_fibroblasts_Analysis         |
-| Colon_Sigmoid_Analysis                         |
-| Colon_Transverse_Analysis                      |
+#+begin_example
+Adipose_Subcutaneous_Analysis
+Adipose_Visceral_Omentum_Analysis
+Adrenal_Gland_Analysis
+Artery_Aorta_Analysis
+Artery_Coronary_Analysis
+Artery_Tibial_Analysis
+Brain_Anterior_cingulate_cortex_BA24_Analysis
+Brain_Caudate_basal_ganglia_Analysis
+Brain_Cerebellar_Hemisphere_Analysis
+Brain_Cerebellum_Analysis
+Brain_Cortex_Analysis
+Brain_Frontal_Cortex_BA9_Analysis
+Brain_Hippocampus_Analysis
+Brain_Hypothalamus_Analysis
+Brain_Nucleus_accumbens_basal_ganglia_Analysis
+Brain_Putamen_basal_ganglia_Analysis
+Breast_Mammary_Tissue_Analysis
+Cells_EBV-transformed_lymphocytes_Analysis
+Cells_Transformed_fibroblasts_Analysis
+Colon_Sigmoid_Analysis
+Colon_Transverse_Analysis
+#+end_example
+
 
 
 
@@ -129,8 +132,8 @@ for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
     #axis(1, 1:NCOL(z), labels=tissues$V1, tick=0)
     par(mar=c(0,0,0,0))
     plot.new()
-    legend("center", legend=sprintf("%.2f", seq(from=0, to=1, length.out=5)),
-           fill=mycol, border=mycol, bty="n")
+    legend("center", legend=sprintf("%.2f", seq(from=0, to=1, length.out=2)),
+           fill=mycol[c(1,4)], border=mycol[c(1,4)], bty="n")
     if (out.file != "")
       dev.off()
     par(def.par)
