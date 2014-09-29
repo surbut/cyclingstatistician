@@ -39,7 +39,7 @@ for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
 
 
 
-#+BEGIN_SRC R :file map.pdf :results graphics :exports results
+#+BEGIN_SRC R :file map.pdf :results graphics :exports results :session
        setwd("./individuals/d")
         file=list.files()
   index=grep("Analysis",list.files())
@@ -147,9 +147,58 @@ for i in $(cat list.txt); do b=`basename $i ".expr.txt"`;echo $b; done
 Because it is visually unappealing to read all of the tissue names in the x axis, I've included a list of the tissues corresponding to each number.
 
 
-#+begin_SRC R :results output exports: results
+#+begin_SRC R :results output :exports results :session
 (tissues$V1)
 #+end_src R
+
+#+RESULTS:
+#+begin_example
+ [1] Adipose_Subcutaneous_Analysis
+ [2] Adipose_Visceral_Omentum_Analysis
+ [3] Adrenal_Gland_Analysis
+ [4] Artery_Aorta_Analysis
+ [5] Artery_Coronary_Analysis
+ [6] Artery_Tibial_Analysis
+ [7] Brain_Anterior_cingulate_cortex_BA24_Analysis
+ [8] Brain_Caudate_basal_ganglia_Analysis
+ [9] Brain_Cerebellar_Hemisphere_Analysis
+[10] Brain_Cerebellum_Analysis
+[11] Brain_Cortex_Analysis
+[12] Brain_Frontal_Cortex_BA9_Analysis
+[13] Brain_Hippocampus_Analysis
+[14] Brain_Hypothalamus_Analysis
+[15] Brain_Nucleus_accumbens_basal_ganglia_Analysis
+[16] Brain_Putamen_basal_ganglia_Analysis
+[17] Breast_Mammary_Tissue_Analysis
+[18] Cells_EBV-transformed_lymphocytes_Analysis
+[19] Cells_Transformed_fibroblasts_Analysis
+[20] Colon_Sigmoid_Analysis
+[21] Colon_Transverse_Analysis
+[22] Esophagus_Gastroesophageal_Junction_Analysis
+[23] Esophagus_Mucosa_Analysis
+[24] Esophagus_Muscularis_Analysis
+[25] Heart_Atrial_Appendage_Analysis
+[26] Heart_Left_Ventricle_Analysis
+[27] Liver_Analysis
+[28] Lung_Analysis
+[29] Muscle_Skeletal_Analysis
+[30] Nerve_Tibial_Analysis
+[31] Ovary_Analysis
+[32] Pancreas_Analysis
+[33] Pituitary_Analysis
+[34] Prostate_Analysis
+[35] Skin_Not_Sun_Exposed_Suprapubic_Analysis
+[36] Skin_Sun_Exposed_Lower_leg_Analysis
+[37] Small_Intestine_Terminal_Ileum_Analysis
+[38] Spleen_Analysis
+[39] Stomach_Analysis
+[40] Testis_Analysis
+[41] Thyroid_Analysis
+[42] Uterus_Analysis
+[43] Vagina_Analysis
+[44] Whole_Blood_Analysis
+44 Levels: Adipose_Subcutaneous_Analysis ... Whole_Blood_Analysis
+#+end_example
 
 
 
