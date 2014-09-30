@@ -1,0 +1,109 @@
+Title
+========================================================
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring web pages (click the **Help** toolbar button for more details on using R Markdown).
+
+When you click the **Knit HTML** button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r fig.width=7, fig.height=6}
+     setwd("~/Documents/git/cyclingstatistician/Thesis//Documentation/GTEX Organization/individuals/d")
+        file=list.files()
+  index=grep("Analysis",list.files())
+  files=file[index]
+        tissues=read.table("tissuenames.txt",row.names=NULL)
+              names <- list()
+              for(i in 1:length(files)){
+                  names[[i]]=data.frame(read.table(files[i],header=FALSE,sep="\t"))}
+
+      ###To determine length:
+
+         (max.inds <- max(unlist(lapply(names,function(x){ncol(x)}))))
+      (tissue.max=tissues$V1[which.max(unlist(lapply(names,function(x){ncol(x)})))])
+      namevector=t(data.frame(read.table(files[tissue.max],header=FALSE,sep="\t")))
+      mat=matrix(NA,nrow=length(files),ncol=max.inds)
+
+      for(i in 1:44){
+          r=data.frame(names[[i]])
+          l=ncol(r)
+
+          if(l<=362)
+              {
+              nulls=362-l
+              n=matrix(NA,ncol=nulls,nrow=1)
+              r=as.matrix(cbind(r,n))
+          }
+              mat[i,]=r[1,]
+      }
+
+
+      rownames(mat)=tissues$V1
+
+      ind.rows=t(mat)
+      rownames(ind.rows)=namevector[,1]
+
+
+      matched.mat=matrix(NA,ncol=44,nrow=362)
+      for(i in 1:ncol(ind.rows)){
+         matched.mat[,i]= ind.rows[match(namevector[,1],ind.rows[,i]),i]
+      }
+
+      rownames(matched.mat)=namevector[,1]
+      colnames(matched.mat)=tissues$V1
+
+    boolean.mat=matrix(NA,ncol=44,nrow=362)
+
+      matched.mat[1:10,1:10]
+
+    for(i in 1:nrow(matched.mat)){
+        row=matched.mat[i,]
+    t=sapply(row,function(x){
+    if(is.na(x)){x=0}
+      else if(!is.na(x)){x=1}
+    })
+      boolean.mat[i,]=t
+    }
+
+      rownames(boolean.mat)=namevector[,1]
+      colnames(boolean.mat)=tissues$V1
+   boolean.mat=(as.matrix(data.frame(boolean.mat)))
+  head(boolean.mat)
+
+  S=44
+  V=362
+
+  myheatmap <- function(z, out.file="") {
+    def.par <- par(no.readonly=TRUE)
+    par(mar=c(4,5,3,2), font=2, font.axis=2, font.lab=2, cex=1.5, lwd=2)
+    if (out.file != "")
+      pdf(out.file)
+    layout(mat=cbind(1, 2), width=c(7,1))  # plot +  legend
+    mycol <- rev(heat.colors(4))
+
+   image(x=1:NCOL(z), y=1:NROW(z), z=t(z),
+          xlim=0.5+c(0,NCOL(z)), ylim=0.5+c(0,NROW(z)),
+          xlab="Tissues", ylab="Individuals", main="Presence of Tissue Sample",
+          axes=FALSE, col=mycol)
+    axis(1, 1:NCOL(z), labels=1:ncol(z))
+     #text(pl, par("usr")[3], labels =tissues$V1, srt = 45, adj = c(1.1,1.1),xpd=TRUE,cex=.5)
+    axis(2)
+   #text(seq(1, ncol(z), by=10), labels =paste("tissue",1:ncol(z)), srt = 90, pos = 1,xpd=TRUE)
+    #axis(1, 1:NCOL(z), labels=tissues$V1, tick=0)
+    par(mar=c(0,0,0,0))
+    plot.new()
+    legend("center", legend=sprintf("%.2f", seq(from=0, to=1, length.out=2)),
+           fill=mycol[c(1,4)], border=mycol[c(1,4)], bty="n")
+    if (out.file != "")
+      dev.off()
+    par(def.par)
+   }
+
+
+  myheatmap(boolean.mat)
+```
+
