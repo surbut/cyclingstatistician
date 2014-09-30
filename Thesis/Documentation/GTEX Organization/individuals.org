@@ -57,11 +57,6 @@ Colon_Transverse_Analysis
          (max.inds <- max(unlist(lapply(names,function(x){ncol(x)}))))
       (tissue.max=tissues$V1[which.max(unlist(lapply(names,function(x){ncol(x)})))])
       namevector=t(data.frame(read.table(files[tissue.max],header=FALSE,sep="\t")))
-
-
-
-
-
       mat=matrix(NA,nrow=length(files),ncol=max.inds)
 
       for(i in 1:44){
@@ -108,7 +103,7 @@ Colon_Transverse_Analysis
       rownames(boolean.mat)=namevector[,1]
       colnames(boolean.mat)=tissues$V1
    boolean.mat=(as.matrix(data.frame(boolean.mat)))
-
+  head(boolean.mat)
 
   S=44
   V=362
@@ -139,9 +134,8 @@ Colon_Transverse_Analysis
     par(def.par)
    }
 
+  dev.new()
   myheatmap(boolean.mat)
-
-
 #+END_SRC R
 
 #+RESULTS:
